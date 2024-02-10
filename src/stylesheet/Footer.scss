@@ -1,0 +1,27 @@
+@import './defalut';
+
+footer {
+    padding:50px 30px; color:#6f6f6f; background-color:#eee;
+    .reference_info {
+        ul li {
+            position:relative; padding-left:20px;
+            &:before { content:""; width:3px; height:3px; position:absolute; top:50%; left:8px; border-radius:100%; transform:translate(0,-50%); background-color:black; }
+        }
+    }
+    .table_wrap {
+        display:flex; padding-top:30px;
+        table {
+            border:1px solid #9d9d9d; border-collapse:collapse;
+            &:nth-of-type(2) { margin-left:30px; }
+            th {
+                height:30px; padding:0 10px; border-bottom:1px solid #9d9d9d; border-right:1px solid #9d9d9d; font-weight:$bold;vertical-align:middle; background-color:#e1e1e1;
+                &:last-of-type(1) { border-right:none; }
+            }
+            td {
+                border-bottom:1px solid #9d9d9d; border-right:1px solid #9d9d9d; text-align:center; vertical-align:middle;
+                &:last-of-type(1) { border-right:none; }
+            }
+        }
+    }
+
+}
