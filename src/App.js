@@ -6,12 +6,18 @@ import { Route, Routes } from 'react-router-dom';
 import {useState} from "react";
 
 function App() {
-    const [comboIdx, setComboIdx] = useState(0);
     const [isBoolean02, setIsBoolean02] = useState(false);
     const [isBoolean03, setIsBoolean03] = useState(false);
     const [isBoolean04, setIsBoolean04] = useState(false);
     const [isBoolean05, setIsBoolean05] = useState(false);
     const [isBoolean06, setIsBoolean06] = useState(false);
+
+
+    //let comboSkill = useState(["downAttack", "assault", "defense", "lanceCharge", "rangedCombatMastery", "magnumshot", "smash", "windMill", "counterAttack","crashShot", "lightningRoad", "lightningbolt", "thunder", "iceSpear", "iceBolt", "fireball", "firebolt", "sandBurst", "waterCannon", "flame", "dashpunch", "screwupper", "pounding", "crossBuster", "shootingRush", "shurikenCharging", "shurikenStorm", "deathMarker", "chainSpinningSlash"])
+    let comboSkill = ["downAttack", "assault", "defense", "lanceCharge", "rangedCombatMastery", "magnumshot", "smash", "windMill", "counterAttack","crashShot", "lightningRoad", "lightningbolt", "thunder", "iceSpear", "iceBolt", "fireball", "firebolt", "sandBurst", "waterCannon", "flame", "dashpunch", "screwupper", "pounding", "crossBuster", "shootingRush", "shurikenCharging", "shurikenStorm", "deathMarker", "chainSpinningSlash"];
+    const [selectCombo, setSelectCombo ] = useState(0);
+    const [selectSkill, setSelectSkill ] = useState("blank");
+
 
   return (
     <div className="App">
@@ -45,15 +51,22 @@ function App() {
                                     }}>추가
                                     </button>
                                     {
+                                        //
                                         isBoolean02 === true ?
                                         <div className="active_wrap">
-                                            <button type="button" onClick={()=>{
-                                                const combeBtnRemove = document.querySelector(".combo_btn_wrap .combo_remove");
+                                            <button type="button" data-combo="2" data-skill="downAttack"
+                                                    onClick={() => {
+                                                        const combeBtnRemove = document.querySelector(".combo_btn_wrap .combo_remove");
 
-                                                setComboIdx(2);
+                                                        setSelectCombo(2);
 
-                                                combeBtnRemove.classList.add("active");
-                                            }}></button>
+                                                        combeBtnRemove.classList.add("active");
+
+
+                                                        console.log(selectCombo);
+                                                    }}>
+                                                <img src={`/images/common/skill/${selectSkill}.jpg`} alt={`${selectSkill}`}/>
+                                            </button>
                                             <div className="combo_input">
                                                 <input type="text" maxLength="2"/>
                                             </div>
@@ -142,13 +155,24 @@ function App() {
                                 </div>
                                 <div className="combo_btn_wrap">
                                     <button type="button" className="combo_remove" onClick={()=>{
-                                        console.log(comboIdx);
+                                        console.log(selectCombo);
                                         setIsBoolean02(false);
                                     }}>제거</button>
                                 </div>
                             </div>
                             <ul className="skill_wrap">
-                                <li><button type="button"><img src="/images/common/skill/downAttack.jpg" alt="downAttack"/></button></li>
+                                {
+                                    comboSkill.map(function(arr, idx){
+                                        return (
+                                            <li key={arr}>
+                                                <button type="button" onClick={()=>{
+                                                    setSelectSkill(arr);
+                                                }}><img src={`/images/common/skill/${arr}.jpg`} alt={`${arr}`}/></button>
+                                            </li>
+                                        )
+                                    })
+                                }
+                                {/*<li><button type="button"><img src="/images/common/skill/downAttack.jpg" alt="downAttack"/></button></li>
                                 <li><button type="button"><img src="/images/common/skill/assault.jpg" alt="assault"/></button></li>
                                 <li><button type="button"><img src="/images/common/skill/defense.jpg" alt="defense"/></button></li>
                                 <li><button type="button"><img src="/images/common/skill/lanceCharge.jpg" alt="lanceCharge"/></button></li>
@@ -176,7 +200,7 @@ function App() {
                                 <li><button type="button"><img src="/images/common/skill/shurikenCharging.jpg" alt="shurikenCharging"/></button></li>
                                 <li><button type="button"><img src="/images/common/skill/shurikenStorm.jpg" alt="shurikenStorm"/></button></li>
                                 <li><button type="button"><img src="/images/common/skill/deathMarker.jpg" alt="deathMarker"/></button></li>
-                                <li><button type="button"><img src="/images/common/skill/chainSpinningSlash.jpg" alt="chainSpinningSlash"/></button></li>
+                                <li><button type="button"><img src="/images/common/skill/chainSpinningSlash.jpg" alt="chainSpinningSlash"/></button></li>*/}
                             </ul>
                         </div>
                         <div className="btn_wrap">

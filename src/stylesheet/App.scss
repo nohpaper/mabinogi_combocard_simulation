@@ -30,7 +30,7 @@ section.input_step {
                     .combo_each {
                         width:118px; height:52px; position:absolute; font-size:0;
                         .disabled_wrap {
-                            position:absolute; top:50%; left:50%; padding:0 16px; color:white; border:0; font-size:14px; font-weight:$regular; line-height:30px; font-family:$Mabinogi; background:url(../../public/images/common/btn_bg.png) 50% 50% /100% 100% no-repeat; @include Boxshadow(black); transform:translate(-50%, -50%);
+                            position:absolute; top:50%; left:50%; padding:0 16px; color:white; border:0; font-size:14px; font-weight:$regular; line-height:30px; font-family:$Mabinogi; cursor:pointer; background:url(../../public/images/common/btn_bg.png) 50% 50% /100% 100% no-repeat; @include Boxshadow(black); transform:translate(-50%, -50%);
                         }
                         .active_wrap {
                             height:100%;
@@ -42,7 +42,10 @@ section.input_step {
                                     width:20px; height:20px; color:#ffff5c; padding:16px 23px; border:0; font-size:16px; font-family:$Mabinogi; background-color:black; @include Boxshadow(#cf290f);
                                 }
                             }
-                            > button { width:52px; height:100%; display:inline-block; position:relative; background-color:#252525; border:1px solid black; z-index:2; }
+                            > button {
+                                width:52px; height:100%; display:inline-block; position:relative; background-color:#252525; border:1px solid black; z-index:2; overflow:hidden; cursor:pointer;
+                                > img { width:100%; height:100%; }
+                            }
                         }
                         &:nth-of-type(1) { top:134px; left:92px; }
                         &:nth-of-type(2) {
