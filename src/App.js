@@ -6,17 +6,35 @@ import { Route, Routes } from 'react-router-dom';
 import {useState} from "react";
 
 function App() {
+
+    //let comboSkill = useState(["downAttack", "assault", "defense", "lanceCharge", "rangedCombatMastery", "magnumshot", "smash", "windMill", "counterAttack","crashShot", "lightningRoad", "lightningbolt", "thunder", "iceSpear", "iceBolt", "fireball", "firebolt", "sandBurst", "waterCannon", "flame", "dashpunch", "screwupper", "pounding", "crossBuster", "shootingRush", "shurikenCharging", "shurikenStorm", "deathMarker", "chainSpinningSlash"])
+    let comboSkill = ["downAttack", "assault", "defense", "lanceCharge", "rangedCombatMastery", "magnumshot", "smash", "windMill", "counterAttack","crashShot", "lightningRoad", "lightningbolt", "thunder", "iceSpear", "iceBolt", "fireball", "firebolt", "sandBurst", "waterCannon", "flame", "dashpunch", "screwupper", "pounding", "crossBuster", "shootingRush", "shurikenCharging", "shurikenStorm", "deathMarker", "chainSpinningSlash"];
+
+    //각 combo 추가 버튼 관련 boolean
     const [isBoolean02, setIsBoolean02] = useState(false);
     const [isBoolean03, setIsBoolean03] = useState(false);
     const [isBoolean04, setIsBoolean04] = useState(false);
     const [isBoolean05, setIsBoolean05] = useState(false);
     const [isBoolean06, setIsBoolean06] = useState(false);
 
-
-    //let comboSkill = useState(["downAttack", "assault", "defense", "lanceCharge", "rangedCombatMastery", "magnumshot", "smash", "windMill", "counterAttack","crashShot", "lightningRoad", "lightningbolt", "thunder", "iceSpear", "iceBolt", "fireball", "firebolt", "sandBurst", "waterCannon", "flame", "dashpunch", "screwupper", "pounding", "crossBuster", "shootingRush", "shurikenCharging", "shurikenStorm", "deathMarker", "chainSpinningSlash"])
-    let comboSkill = ["downAttack", "assault", "defense", "lanceCharge", "rangedCombatMastery", "magnumshot", "smash", "windMill", "counterAttack","crashShot", "lightningRoad", "lightningbolt", "thunder", "iceSpear", "iceBolt", "fireball", "firebolt", "sandBurst", "waterCannon", "flame", "dashpunch", "screwupper", "pounding", "crossBuster", "shootingRush", "shurikenCharging", "shurikenStorm", "deathMarker", "chainSpinningSlash"];
     const [selectCombo, setSelectCombo ] = useState(0);
-    const [selectSkill, setSelectSkill ] = useState("blank");
+
+    //각 combo
+    const [selectComboIsActive01, setSelectComboIsActive01 ] = useState(false);
+    const [selectComboIsActive02, setSelectComboIsActive02 ] = useState(false);
+    const [selectComboIsActive03, setSelectComboIsActive03 ] = useState(false);
+    const [selectComboIsActive04, setSelectComboIsActive04 ] = useState(false);
+    const [selectComboIsActive05, setSelectComboIsActive05 ] = useState(false);
+    const [selectComboIsActive06, setSelectComboIsActive06 ] = useState(false);
+
+
+    //각 skill select state
+    const [selectSkill01, setSelectSkill01 ] = useState("blank");
+    const [selectSkill02, setSelectSkill02 ] = useState("blank");
+    const [selectSkill03, setSelectSkill03 ] = useState("blank");
+    const [selectSkill04, setSelectSkill04 ] = useState("blank");
+    const [selectSkill05, setSelectSkill05 ] = useState("blank");
+    const [selectSkill06, setSelectSkill06 ] = useState("blank");
 
 
   return (
@@ -37,7 +55,20 @@ function App() {
                             <div className="combocard_wrap">
                                 <div className="combo_each">
                                     <div className="active_wrap">
-                                        <button type="button"></button>
+                                        <button type="button" className={selectComboIsActive01 ? "active" : null } onClick={()=>{
+                                            setSelectComboIsActive01(!selectComboIsActive01);
+                                            setSelectCombo(1);
+
+                                            if(selectComboIsActive01) {
+                                                setSelectComboIsActive02(false);
+                                                setSelectComboIsActive03(false);
+                                                setSelectComboIsActive04(false);
+                                                setSelectComboIsActive05(false);
+                                                setSelectComboIsActive06(false);
+                                            }
+                                        }}>
+                                            <img src={`/images/common/skill/${selectSkill01}.jpg`} alt={`${selectSkill01}`}/>
+                                        </button>
                                     </div>
                                 </div>
                                 <div className="combo_each">
@@ -54,21 +85,26 @@ function App() {
                                         //
                                         isBoolean02 === true ?
                                         <div className="active_wrap">
-                                            <button type="button" data-combo="2" data-skill="downAttack"
+                                            <button type="button" className={selectComboIsActive02 ? "active" : null }
                                                     onClick={() => {
                                                         const combeBtnRemove = document.querySelector(".combo_btn_wrap .combo_remove");
-
-                                                        setSelectCombo(2);
-
                                                         combeBtnRemove.classList.add("active");
 
+                                                        setSelectComboIsActive02(!selectComboIsActive02);
+                                                        setSelectCombo(2);
 
-                                                        console.log(selectCombo);
+                                                        if(selectComboIsActive02) {
+                                                            setSelectComboIsActive01(false);
+                                                            setSelectComboIsActive03(false);
+                                                            setSelectComboIsActive04(false);
+                                                            setSelectComboIsActive05(false);
+                                                            setSelectComboIsActive06(false);
+                                                        }
                                                     }}>
-                                                <img src={`/images/common/skill/${selectSkill}.jpg`} alt={`${selectSkill}`}/>
+                                                <img src={`/images/common/skill/${selectSkill02}.jpg`} alt={`${selectSkill02}`}/>
                                             </button>
                                             <div className="combo_input">
-                                                <input type="text" maxLength="2"/>
+                                            <input type="text" maxLength="2"/>
                                             </div>
                                         </div> : null
                                     }
@@ -84,17 +120,35 @@ function App() {
                                     }}>추가
                                     </button>
                                     {
-                                        isBoolean03 === true &&
-                                        <div className="active_wrap">
-                                            <div className="combo_input">
-                                                <input type="text" maxLength="2"/>
-                                            </div>
-                                            <button type="button"></button>
-                                        </div>
+                                        isBoolean03 === true ?
+                                            <div className="active_wrap">
+                                                <div className="combo_input">
+                                                    <input type="text" maxLength="2"/>
+                                                </div>
+                                                <button type="button" className={selectComboIsActive03 ? "active" : null }
+                                                        onClick={() => {
+                                                            const combeBtnRemove = document.querySelector(".combo_btn_wrap .combo_remove");
+                                                            combeBtnRemove.classList.add("active");
+
+                                                            setSelectComboIsActive03(!selectComboIsActive03);
+                                                            setSelectCombo(3);
+
+                                                            if(selectComboIsActive03) {
+                                                                setSelectComboIsActive01(false);
+                                                                setSelectComboIsActive02(false);
+                                                                setSelectComboIsActive04(false);
+                                                                setSelectComboIsActive05(false);
+                                                                setSelectComboIsActive06(false);
+                                                            }
+                                                        }}>
+                                                    <img src={`/images/common/skill/${selectSkill03}.jpg`}
+                                                         alt={`${selectSkill03}`}/>
+                                                </button>
+                                            </div> : null
                                     }
                                 </div>
                                 <div className="combo_each">
-                                    <button type="button" className="disabled_wrap" onClick={() => {
+                                <button type="button" className="disabled_wrap" onClick={() => {
                                         if (isBoolean02 && isBoolean03 && !isBoolean05 && !isBoolean06) {
                                             //2~3가 true고, 5~6이 모두 false면 true
                                             setIsBoolean04(true);
@@ -106,9 +160,22 @@ function App() {
                                     {
                                         isBoolean04 === true &&
                                         <div className="active_wrap">
-                                            <button type="button"></button>
+                                            <button type="button" className={selectComboIsActive04 ? "active" : null }  onClick={()=>{
+                                                setSelectComboIsActive04(!selectComboIsActive04);
+                                                setSelectCombo(4);
+
+                                                if(selectComboIsActive04) {
+                                                    setSelectComboIsActive01(false);
+                                                    setSelectComboIsActive02(false);
+                                                    setSelectComboIsActive03(false);
+                                                    setSelectComboIsActive05(false);
+                                                    setSelectComboIsActive06(false);
+                                                }
+                                            }}>
+                                                <img src={`/images/common/skill/${selectSkill04}.jpg`}  alt={`${selectSkill04}`}/>
+                                            </button>
                                             <div className="combo_input">
-                                                <input type="text" maxLength="2"/>
+                                            <input type="text" maxLength="2"/>
                                             </div>
                                         </div>
                                     }
@@ -129,7 +196,20 @@ function App() {
                                             <div className="combo_input">
                                                 <input type="text" maxLength="2"/>
                                             </div>
-                                            <button type="button"></button>
+                                            <button type="button" className={selectComboIsActive05 ? "active" : null }  onClick={()=>{
+                                                setSelectComboIsActive05(!selectComboIsActive05);
+                                                setSelectCombo(5);
+
+                                                if(selectComboIsActive05) {
+                                                    setSelectComboIsActive01(false);
+                                                    setSelectComboIsActive02(false);
+                                                    setSelectComboIsActive03(false);
+                                                    setSelectComboIsActive04(false);
+                                                    setSelectComboIsActive06(false);
+                                                }
+                                            }}>
+                                                <img src={`/images/common/skill/${selectSkill05}.jpg`} alt={`${selectSkill05}`}/>
+                                            </button>
                                         </div>
                                     }
                                 </div>
@@ -146,7 +226,20 @@ function App() {
                                     {
                                         isBoolean06 === true &&
                                         <div className="active_wrap">
-                                            <button type="button"></button>
+                                            <button type="button" className={selectComboIsActive06 ? "active" : null }  onClick={()=>{
+                                                setSelectComboIsActive06(!selectComboIsActive06);
+                                                setSelectCombo(6);
+
+                                                if(selectComboIsActive06 === true) {
+                                                    setSelectComboIsActive01(false);
+                                                    setSelectComboIsActive02(false);
+                                                    setSelectComboIsActive03(false);
+                                                    setSelectComboIsActive04(false);
+                                                    setSelectComboIsActive05(false);
+                                                }
+                                            }}>
+                                                <img src={`/images/common/skill/${selectSkill06}.jpg`} alt={`${selectSkill06}`}/>
+                                            </button>
                                             <div className="combo_input">
                                                 <input type="text" maxLength="2"/>
                                             </div>
@@ -166,7 +259,29 @@ function App() {
                                         return (
                                             <li key={arr}>
                                                 <button type="button" onClick={()=>{
-                                                    setSelectSkill(arr);
+                                                    /*switch(selectCombo){
+                                                        case 1 : return setSelectSkill01(arr)
+                                                        case 2 : return setSelectSkill02(arr)
+                                                        case 3 : return setSelectSkill03(arr)
+                                                        case 4 : return setSelectSkill04(arr)
+                                                        case 5 : return setSelectSkill05(arr)
+                                                        case 6 : return setSelectSkill06(arr)
+                                                        default : return null
+                                                    }*/
+                                                    if(selectCombo === 1 && selectComboIsActive01){
+                                                        setSelectSkill01(arr);
+                                                    }else if(selectCombo === 2 && selectComboIsActive02){
+                                                        setSelectSkill02(arr);
+                                                    }else if(selectCombo === 3 && selectComboIsActive03){
+                                                        setSelectSkill03(arr);
+                                                    }else if(selectCombo === 4 && selectComboIsActive04){
+                                                        setSelectSkill04(arr);
+                                                    }else if(selectCombo === 5 && selectComboIsActive05){
+                                                        setSelectSkill05(arr);
+                                                    }else if(selectCombo === 6 && selectComboIsActive06){
+                                                        setSelectSkill06(arr);
+                                                    }
+
                                                 }}><img src={`/images/common/skill/${arr}.jpg`} alt={`${arr}`}/></button>
                                             </li>
                                         )
