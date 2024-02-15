@@ -6,13 +6,17 @@ import { Route, Routes } from 'react-router-dom';
 import {useEffect, useState} from "react";
 
 /**TODO :
- * 1. button에 active 되어 있을 경우 제거 버튼 클릭 시
- *      1-1. 활성화된 버튼의 index를 확인하고 해당 index의 button 제어
+ * 1. button 에 active 되어 있을 경우 제거 버튼 클릭 시
+ *      1-1. 활성화된 버튼의 index 를 확인하고 해당 index 의 button 제어
+ *           1-1-1. button 마다 data-set 을 세팅하고, active 된 button 의 data-set 을 가져와
+ *           해당 부분의 state false 로 변경
  *      1-2. 선택된 스킬 및 퍼센트 초기화
+ *           1-2-1. 선택된 스킬의 data-set 을 확인하고 해당 부분의 state 값을 초기화
  * 2. OK ---- 초기화 버튼 클릭 시 button active remove/select skill remove/onChange figure remove
  * 3. combo 태그 부분 간략화 확인
- * 4. 추가 버튼 클릭 시 바로 button active 및 remove btn 활성화
+ * 4. OK ---- 추가 버튼 클릭 시 바로 button active 및 remove btn 활성화
  *      4-1. 6칸까지 추가 완료 했을 경우 2~5칸의 combo 제거 못하는 건 확인
+ *
  */
 function App() {
 
@@ -55,6 +59,27 @@ function App() {
     const [figure05, setFigure05] = useState(0);
     const [figure06, setFigure06] = useState(0);
 
+    useEffect(()=>{
+        const combeBtnRemove = document.querySelector(".combo_btn_wrap .combo_remove");
+        const combeEachBtn = document.querySelectorAll(".combo_each .active_wrap > button");
+
+        //combo 2번칸부터 실행
+        if(selectComboIsActive02 || selectComboIsActive03 || selectComboIsActive04 || selectComboIsActive05 || selectComboIsActive06){
+            //combo remove btn on
+            combeBtnRemove.classList.add("active");
+
+            console.log(combeEachBtn);
+            for(let i = 0; i < combeEachBtn.length; i++){
+                console.log(combeEachBtn[i]);
+            }
+            /*combeEachBtn.forEach(function(value, key){
+                console.log(value);
+            })*/
+        }else {
+            //combo remove btn off
+            combeBtnRemove.classList.remove("active");
+        }
+    }, [selectComboIsActive01, selectComboIsActive02, selectComboIsActive03, selectComboIsActive04, selectComboIsActive05, selectComboIsActive06])
     useEffect(() => {
         //if문으로만 구성할 경우 6번 클릭 후 1번 클릭 시 true false가 안됨
         //else if문으로만 구성할 경우 1번 클릭 후 2번 클릭 시 true false가 안됨
@@ -156,10 +181,6 @@ function App() {
                                 <div className="combo_each">
                                     <button type="button" className="disabled_wrap" onClick={() => {
                                         if (!isBoolean03 && !isBoolean04 && !isBoolean05 && !isBoolean06) {
-                                            //combo remove active
-                                            const combeBtnRemove = document.querySelector(".combo_btn_wrap .combo_remove");
-                                            combeBtnRemove.classList.add("active");
-
                                             //3~6이 모두 false면 true
                                             setIsBoolean02(true);
                                             setSelectCombo(2); //combo active idx
