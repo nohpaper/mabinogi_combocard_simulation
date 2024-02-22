@@ -99,7 +99,8 @@ section.input_step {
             }
             .btn_wrap {
                 padding-bottom:20px; text-align:center;
-                button { margin:0 2px; padding:0 30px; color:white; border:0; font-size:14px; font-weight:$regular; line-height:38px; font-family:$Mabinogi; cursor:pointer; background:url(../../public/images/common/btn_bg.png) 50% 50% /100% 100% no-repeat; @include Boxshadow(black); }
+                a, button { display:inline-block; margin:0 2px; padding:0 30px; color:white; border:0; font-size:14px; font-weight:$regular; line-height:38px; text-decoration:none; font-family:$Mabinogi; cursor:pointer; background:url(../../public/images/common/btn_bg.png) 50% 50% /100% 100% no-repeat; @include Boxshadow(black); }
+                .step_stop_wrap { width:488px; position:absolute; top:80%; left:50%; border-radius:5px; border:1px solid #131313; z-index:990; color:white; font-size:16px; font-weight:$regular; line-height:54px; font-family:$Mabinogi; background-color:#262626; transform:translate(-50%, -50%); @include Boxshadow(black); }
             }
         }
     }
