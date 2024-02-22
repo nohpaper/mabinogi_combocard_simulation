@@ -1,0 +1,98 @@
+@import './defalut';
+
+section.random_step {
+    padding:50px 0;
+    h1 { font-size:30px; font-weight:$bold; text-align:center;  }
+    .container {
+        max-width:488px; margin: 0 auto; padding-top: 30px;
+        h5 { width:100%; padding-left:57px; box-sizing:border-box; color:white; font-size:16px; font-weight:$regular; line-height:54px; font-family:$Mabinogi; background:url(../../public/images/common/bg_top.png) 50% 50% /cover no-repeat; @include Boxshadow(#838383) }
+        .random_wrap {
+            max-width:484px; margin:0 auto; background:url(../../public/images/common/bg_content.jpg) 50% 50% /100% 100% no-repeat;
+            > ul {
+                margin:0 8px; padding-top:6px; font-size:0; border-bottom:2px solid black;
+                li {
+                    display:inline-block; position:relative; top:2px; padding:0 9px; margin-left:4px; color:white; font-size:16px; font-weight:$regular; line-height:38px; font-family:$Mabinogi; background:url(../../public/images/step1/tab_disabled_bg.jpg) 50% 50% /cover no-repeat; @include Boxshadow(#838383);
+                    &:before { content:""; width:9px; height:38px; position:absolute; top:0; left:0; background:url(../../public/images/step1/tab_disabled_round.jpg) 50% 50% /cover no-repeat; }
+                    &:after { content:""; width:9px; height:38px; position:absolute; top:0; right:0; transform:rotateY(180deg); background:url(../../public/images/step1/tab_disabled_round.jpg) 50% 50% /cover no-repeat; }
+                    &.active {
+                        background-image:url(../../public/images/step1/tab_active_bg.jpg);
+                        &:before { background-image:url(../../public/images/step1/tab_active_round.jpg); }
+                        &:after { background-image:url(../../public/images/step1/tab_active_round.jpg); }
+                    }
+                }
+            }
+            .random_inner {
+                height:468px; padding:14px 0 4px 14px; font-size:0;
+                .combocard_wrap {
+                    width:351px; height:100%; display:inline-block; position:relative; background:url(../../public/images/common/combocard_bg.jpg) 50% 50% /cover no-repeat;
+                    .combo_each {
+                        width:118px; height:52px; position:absolute; font-size:0;
+                        .active_wrap {
+                            height:100%; position:relative;
+                            .combo_value {
+                                display:inline-block; vertical-align:top; position:relative; color:#ffff5c; font-size:16px; font-family:$Mabinogi; @include Boxshadow(#cf290f);
+                                &:before { content:"+"; position:absolute; top:50%; left:13px;  transform:translate(0, -50%); }
+                                &:after { content:"%"; position:absolute; top:50%; right:13px;  transform:translate(0, -50%); }
+                                > span {
+                                    width:20px; height:20px; display:inline-block; color:#ffff5c; padding:16px 23px; border:0; font-size:16px; line-height:20px; font-family:$Mabinogi; background-color:black; @include Boxshadow(#cf290f);
+                                }
+                            }
+                            > button {
+                                width:52px; height:100%; display:inline-block; position:relative; background-color:#252525; border:1px solid black; z-index:2; cursor:pointer;
+                                &.active::before {
+                                    content:""; width:58px; height:58px; position:absolute; top:50%; left:50%; z-index:-1; border-radius:5px; background-color:#e1e0e0; transform:translate(-50%, -50%);
+                                }
+                                > img { width:100%; height:100%; }
+                            }
+                            .combo_count { position:absolute; top:75%; right:0; padding:4px 5px 0; color:white; border:1px solid #7b7c7e; border-radius:100%; font-size:13px; font-weight:$regular; line-height:18px; font-family:$Mabinogi; background-color:black; @include Boxshadow(black) }
+                        }
+                        &:nth-of-type(1) { top:134px; left:92px; }
+                        &:nth-of-type(2) {
+                            top:167px; right:20px;
+                            &:before { content:""; width:74px; height:34px; position:absolute; top:-12px; left:-72px; z-index:1; background:url(../../public/images/common/arrow_left.png) 50% 50%/cover no-repeat; }
+                        }
+                        &:nth-of-type(3) {
+                            top:207px; left:20px;
+                            &:before { content:""; width:74px; height:34px; position:absolute; top:-12px; right:-72px; z-index:1; background:url(../../public/images/common/arrow_right.png) 50% 50%/cover no-repeat; }
+                        }
+                        &:nth-of-type(4) {
+                            top:240px; right:20px;
+                            &:before { content:""; width:74px; height:34px; position:absolute; top:-12px; left:-72px; z-index:1; background:url(../../public/images/common/arrow_left.png) 50% 50%/cover no-repeat; }
+                        }
+                        &:nth-of-type(5) {
+                            top:280px; left:20px;
+                            &:before { content:""; width:74px; height:34px; position:absolute; top:-12px; right:-72px; z-index:1; background:url(../../public/images/common/arrow_right.png) 50% 50%/cover no-repeat; }
+                        }
+                        &:nth-of-type(6) {
+                            top:313px; right:20px;
+                            &:before { content:""; width:74px; height:34px; position:absolute; top:-12px; left:-72px; z-index:1; background:url(../../public/images/common/arrow_left.png) 50% 50%/cover no-repeat; }
+                        }
+                    }
+                    .combo_btn_wrap {
+                        width:264px; position:absolute; bottom:28px; left:50%; padding:18px 0; text-align:center; transform:translateX(-50%);
+                        button {
+                            margin:0 2px; padding:0 25px; color:white; border:0; font-size:12px; font-weight:$regular; line-height:28px; font-family:$Mabinogi; opacity:0; visibility:hidden; cursor:pointer; background:url(../../public/images/common/btn_bg.png) 50% 50% /100% 100% no-repeat; @include Boxshadow(black);
+                            &.active { opacity:1; visibility:inherit; }
+                        }
+                    }
+                }
+                .skill_wrap {
+                    height:100%; display:inline-block; padding:4px 5px; box-sizing:border-box; overflow-y:scroll; overflow-x:hidden; background:url(../../public/images/common/skill_bg.jpg) 50% 50% /100% 100% no-repeat;
+                    &::-webkit-scrollbar { background-color:#282828; }
+                    &::-webkit-scrollbar-track { background-color:#010101; }
+                    &::-webkit-scrollbar-thumb { background-color:#282828; border:2px solid #5d5d5d; border-radius:2px; }
+                    &::-webkit-scrollbar-button { background-color:#282828; border:2px solid #5d5d5d; border-radius:2px; }
+
+                    > li {
+                        width:58px; height:58px; position:relative; margin:4px auto 0; background:url(../../public/images/common/skill_line.png) 50% 50% /100% 100% no-repeat;
+                        &:nth-of-type(1) { margin:0 auto; }
+                        button {
+                            width:45px; height:45px; position:absolute; top:50%; left:50%; padding:0; transform:translate(-50%, -50%); border-radius:3px; border:2.5px solid white; box-sizing:border-box; cursor:pointer; background-image: linear-gradient(180deg, #4c6475 30%, #94aeb6);
+                            img { width:100%; height:100%; }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
