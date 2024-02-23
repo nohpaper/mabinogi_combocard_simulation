@@ -14,9 +14,10 @@ function App() {
         {
             id:0,
             isAddButton:true, //add button true or false
-            isActive:false, //
-            selectSkill:BLANK_VALUE,
-            inputPercent:0,
+            isActive:false, //button active true or false
+            selectSkill:BLANK_VALUE, //select skill input
+            inputPercent:0, //select percent input
+            usingPercent:0, //inputPerent interval calc
         },
         {
             id:1,
@@ -24,6 +25,7 @@ function App() {
             isActive:false,
             selectSkill:BLANK_VALUE,
             inputPercent:0,
+            usingPercent:0,
         },
         {
             id:2,
@@ -31,6 +33,7 @@ function App() {
             isActive:false,
             selectSkill:BLANK_VALUE,
             inputPercent:0,
+            usingPercent:0,
         },
         {
             id:3,
@@ -38,6 +41,7 @@ function App() {
             isActive:false,
             selectSkill:BLANK_VALUE,
             inputPercent:0,
+            usingPercent:0,
         },
         {
             id:4,
@@ -45,6 +49,7 @@ function App() {
             isActive:false,
             selectSkill:BLANK_VALUE,
             inputPercent:0,
+            usingPercent:0,
         },
         {
             id:5,
@@ -52,17 +57,18 @@ function App() {
             isActive:false,
             selectSkill:BLANK_VALUE,
             inputPercent:0,
+            usingPercent:0,
         },
     ]);
     const [skillAll, setSkillAll] = useState([]);
     const [percentAll, setPercentAll] = useState([]);
     const [selectCombo, setSelectCombo ] = useState(0);
-    console.log("App: ", list);
+
   return (
     <div className="App">
         <Routes>
-            <Route path="/" element={<Input blank={BLANK_VALUE} skill={comboSkill} list={list} setList={setList} setSkillAll={setSkillAll} setPercentAll={setPercentAll}/>}/>
-            <Route path="/custom" element={<Custom blank={BLANK_VALUE} skill={comboSkill} list={list} skillAll={skillAll} percentAll={percentAll}/>} />
+            <Route path="/" element={<Input blank={BLANK_VALUE} skill={comboSkill} list={list} setList={setList} setSkillAll={setSkillAll} percentAll={percentAll} setPercentAll={setPercentAll}/>}/>
+            <Route path="/custom" element={<Custom blank={BLANK_VALUE} skill={comboSkill} list={list} setList={setList} skillAll={skillAll} percentAll={percentAll}/>} />
         </Routes>
         <Footer/>
     </div>

@@ -95,9 +95,6 @@ function Input(props) {
 
     }, [props.list[1].isActive, props.list[2].isActive, props.list[3].isActive, props.list[4].isActive, props.list[5].isActive])*/
 
-
-
-    console.log(props.list);
   return (
     <div className="Input">
         <div className="wrap">
@@ -278,9 +275,9 @@ function Input(props) {
                         <div className="btn_wrap">
                             <Link to="/custom" className="next_step" onClick={(e) => {
                                 let alertTrigger = false;
+                                let copy = [...props.list];
                                 props.list.map(function(arr, idx){
                                     //확인
-                                    let copy = [...props.list];
                                     copy[idx].isActive = false;
                                     props.setList(copy);
 
@@ -293,8 +290,28 @@ function Input(props) {
                                         let newPercentAll = [props.list[0].inputPercent, props.list[1].inputPercent, props.list[2].inputPercent, props.list[3].inputPercent, props.list[4].inputPercent, props.list[5].inputPercent]
                                         props.setSkillAll([...newSkillAll]);
                                         props.setPercentAll([...newPercentAll]);
+
+
+                                        //percentAll 1 - 0 / 2 - 1 / 해서 usingPercent에 삽입하기
                                     }
-                                })
+                                });
+                                //usingPercent 삽입
+                                const percentNumber = props.percentAll.map(Number);
+
+                                const percentNumber01 = percentNumber[1] - percentNumber[0];
+                                const percentNumber02 = percentNumber[2] - percentNumber[1];
+                                const percentNumber03 = percentNumber[3] - percentNumber[2];
+                                const percentNumber04 = percentNumber[4] - percentNumber[3];
+                                const percentNumber05 = percentNumber[5] - percentNumber[4];
+
+                                copy[1].usingPercent = percentNumber01;
+                                copy[2].usingPercent = percentNumber02;
+                                copy[3].usingPercent = percentNumber03;
+                                copy[4].usingPercent = percentNumber04;
+                                copy[5].usingPercent = percentNumber05;
+
+                                props.setList(copy);
+                                console.log("props.list: ", props.list);
                             }}>다음</Link>
 
 
