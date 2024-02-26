@@ -6,6 +6,10 @@ import reportWebVitals from './reportWebVitals';
 
 import {BrowserRouter, Route, Routes} from 'react-router-dom';
 
+/** HACK :
+ * 1. 터미널에 npm start 실행 시 브라우저에 바로 localhost:3000 탭이 뜨지 않는 이유
+ */
+
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
