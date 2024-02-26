@@ -6,6 +6,11 @@ import {Link,} from "react-router-dom";
 /** HACK :
  * 1. combo_btn_wrap / reset_step 부분 동일하게 배열 copy 로 사용하였는데 다르게 작동되는 부분
  * 2. useEffect App.js로 올려야 하는
+ * 3. map return 안에는 변수는 안되는데, 이럴 경우에는 forEach이 맞는 건지
+ *
+ */
+/** TODO :
+ * 1. percent input 태그에 mouseout 되면 숫자를 확인하고, 그 이전 콤보 카드의 percent 보다 낮을 경우 에러 표시 후 값 초기화
  *
  */
 
@@ -14,7 +19,69 @@ function Input(props) {
     const comboBtnRemove = useRef();
 
     let currentActive = ((currentIdx)=>{
-        props.list.map(function(arr, idx, array){
+        props.list.forEach(function(arr, idx){
+            let copyList = [...props.list];
+            copyList[idx].isActive = false;
+            props.setList(copyList);
+
+            switch(currentIdx){
+                case 0: {
+                    copyList[0].isActive = true;
+                    props.setList(copyList);
+
+                    setSelectCombo(0); //combo active idx
+                    comboBtnRemove.current.classList.remove("active");
+                    return;
+                }
+                case 1: {
+                    copyList[1].isActive = true;
+                    copyList[1].isAddButton = true; //combo add boolean
+                    props.setList(copyList);
+
+                    setSelectCombo(1); //combo active idx
+                    comboBtnRemove.current.classList.add("active");
+                    return;
+                }
+                case 2: {
+                    copyList[2].isActive = true;
+                    copyList[2].isAddButton = true; //combo add boolean
+                    props.setList(copyList);
+
+                    setSelectCombo(2); //combo active idx
+                    comboBtnRemove.current.classList.add("active");
+                    return;
+                }
+                case 3: {
+                    copyList[3].isActive = true;
+                    copyList[3].isAddButton = true; //combo add boolean
+                    props.setList(copyList);
+
+                    setSelectCombo(3); //combo active idx
+                    comboBtnRemove.current.classList.add("active");
+                    return;
+                }
+                case 4: {
+                    copyList[4].isActive = true;
+                    copyList[4].isAddButton = true; //combo add boolean
+                    props.setList(copyList);
+
+                    setSelectCombo(4); //combo active idx
+                    comboBtnRemove.current.classList.add("active");
+                    return;
+                }
+                default :
+                case 5: {
+                    copyList[5].isActive = true;
+                    copyList[5].isAddButton = true; //combo add boolean
+                    props.setList(copyList);
+
+                    setSelectCombo(5); //combo active idx
+                    comboBtnRemove.current.classList.add("active");
+                    return;
+                }
+            }
+        })
+        /*props.list.map(function(arr, idx, array){
 
             let copyList = [...props.list];
             copyList[idx].isActive = false;
@@ -76,24 +143,8 @@ function Input(props) {
                     return;
                 }
             }
-        });
+        });*/
     });
-
-
-    /*useEffect(()=>{
-        //combo 2번칸부터 true 면 실행
-        if(props.list[1].isActive || props.list[2].isActive || props.list[3].isActive || props.list[4].isActive || props.list[5].isActive){
-            //combo remove btn on
-
-            //0은 제거 불가, 그 외만 add class active
-            comboBtnRemove.current.classList.add("active");
-
-        }else {
-            //combo remove btn off
-            comboBtnRemove.current.classList.remove("active");
-        }
-
-    }, [props.list[1].isActive, props.list[2].isActive, props.list[3].isActive, props.list[4].isActive, props.list[5].isActive])*/
 
   return (
     <div className="Input">
@@ -223,7 +274,7 @@ function Input(props) {
                                 }
                                 <div className="combo_btn_wrap">
                                     <button type="button" ref={comboBtnRemove} className="combo_remove" onClick={()=>{
-                                        if(selectCombo === selectCombo && selectCombo !== 0 ) {
+                                        if(selectCombo !== 0 ) {
                                             let copy = props.list.slice(selectCombo);
 
                                             let upDatedCopy = copy.map((arr) => {
@@ -291,12 +342,12 @@ function Input(props) {
                                         props.setSkillAll([...newSkillAll]);
                                         props.setPercentAll([...newPercentAll]);
 
+                                        props.percentAll.map(Number);
 
                                         //percentAll 1 - 0 / 2 - 1 / 해서 usingPercent에 삽입하기
                                     }
                                 });
-                                //usingPercent 삽입
-                                const percentNumber = props.percentAll.map(Number);
+                                /*const percentNumber = props.percentAll.map(Number);
 
                                 const percentNumber01 = percentNumber[1] - percentNumber[0];
                                 const percentNumber02 = percentNumber[2] - percentNumber[1];
@@ -311,7 +362,10 @@ function Input(props) {
                                 copy[5].usingPercent = percentNumber05;
 
                                 props.setList(copy);
-                                console.log("props.list: ", props.list);
+                                console.log("props.percentAll: ", props.percentAll);
+                                console.log("percentNumber: ", percentNumber);
+                                console.log("percentNumber01: ", percentNumber01, "percentNumber02: ", percentNumber02, "percentNumber03: ", percentNumber03, "percentNumber04: ", percentNumber04, "percentNumber05: ", percentNumber05);
+                                console.log("props.list: ", props.list);*/
                             }}>다음</Link>
 
 
