@@ -3,7 +3,7 @@ import Input from './Input';
 import Custom from './Custom';
 import Footer from './Footer.js';
 
-import React, {useEffect, useState} from "react";
+import React, {useState} from "react";
 import {Route, Routes} from "react-router-dom";
 
 const BLANK_VALUE = "blank";
@@ -62,13 +62,13 @@ function App() {
     ]);
     const [skillAll, setSkillAll] = useState([]);
     const [percentAll, setPercentAll] = useState([]);
-    const [selectCombo, setSelectCombo ] = useState(0);
+    //const [selectCombo, setSelectCombo ] = useState(0);
 
   return (
     <div className="App">
         <Routes>
             <Route path="/" element={<Input blank={BLANK_VALUE} skill={comboSkill} list={list} setList={setList} setSkillAll={setSkillAll} percentAll={percentAll} setPercentAll={setPercentAll}/>}/>
-            <Route path="/custom" element={<Custom blank={BLANK_VALUE} skill={comboSkill} list={list} setList={setList} skillAll={skillAll} percentAll={percentAll}/>} />
+            <Route path="/custom" element={<Custom blank={BLANK_VALUE} skill={comboSkill} list={list} setList={setList} skillAll={skillAll} setSkillAll={setSkillAll} percentAll={percentAll}/>} />
         </Routes>
         <Footer/>
     </div>
