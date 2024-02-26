@@ -70,10 +70,7 @@ section.random_step {
                     }
                     .combo_btn_wrap {
                         width:264px; position:absolute; bottom:28px; left:50%; padding:18px 0; text-align:center; transform:translateX(-50%);
-                        button {
-                            margin:0 2px; padding:0 25px; color:white; border:0; font-size:12px; font-weight:$regular; line-height:28px; font-family:$Mabinogi; opacity:0; visibility:hidden; cursor:pointer; background:url(../../public/images/common/btn_bg.png) 50% 50% /100% 100% no-repeat; @include Boxshadow(black);
-                            &.active { opacity:1; visibility:inherit; }
-                        }
+                        p { color:white; font-size:12px; font-weight:$regular; line-height:28px; font-family:$Mabinogi; @include Boxshadow(#555353); }
                     }
                 }
                 .skill_wrap {
