@@ -7,20 +7,11 @@ import React, {useEffect, useState} from "react";
  * 2. custom.js 에서 화면에 노출되는 select skill 부분은 input.js 에서는 list.selectSkill 를 사용하고 있는데, custom 에서도 동일하게 사용하는 것이 맞을까?
  *      아니면, input.js 에서 next button click 했을 때 skillAll state 로 넘겨줬기때문에 해당 state 로 조정하는 것이 맞을까?
  *      -> use coin js를 작성할 때 skillAll 부분을 forEach 돌려서 TODO의 2-2번을 사용하고 싶음
- *
+ * 2. //usingPercent 삽입의 useEffect 에서 []안에 props 자체를 넣어주지 않으면 React Hook useEffect has a missing dependency: 'props'. 이런 에러가 뜸
  */
 /** TODO :
- * 1. left skill button click 시
- *      1-1. ok ---- selectCombo 에 각 숫자 카운팅
- *      1-2. ok ---- add class active
- *          1-2-1. ok ---- 재 클릭 시 remove class active
- * 2. left skill button.active 일 때
- *      2-1. ok ----selectCombo 에 각 숫자 확인 후 right skill button 클릭 시 스킬은 고정, 확률 변경
- *      2-2. 확률 변경 시 props.skillAll 에 있는 각 skill name 확인 후 현재 클릭한 이름과 동일한 갯수(클릭 제외)만큼 코인 증감
- * 3. ok ---- input.js에서 percent 첫 입력 후 다음 클릭 시 NaN 뜨는 오류 ( 이전 클릭하고, 다시 입력하면 정상 작동 )
- *      3-1. ok ---- 첫 클릭 시 input.js props.percentAll 제대로 담기지 않는 현상 발견
- *      3-2. ok ---- 첫 클릭 시 input.js percentNumber map이 제대로 돌아가지 않는 현상 발견
- * 4. skill_wrap 부분 코드 고도화
+ * 1. button 확률 변경 시 코인 사용 증감
+ *      1-1. click name 확인 후 name 을 배열에서 갯수 확인(현재는 더 높은 쪽이 나오도록 출력되어 있음)
  */
 
 function percentRandom(){
@@ -61,6 +52,7 @@ function Custom(props) {
     ]);
     const [selectCombo, setSelectCombo ] = useState(0);
     const [allUsedCoin, setAllUsedCoin ] = useState(0);
+    const [coinValue, setCoinValue] = useState(0);
 
 
     useEffect(()=>{
@@ -86,36 +78,67 @@ function Custom(props) {
         props.setSkillAll([...newSkillAll]);
 
         console.log("skill: ", props.skillAll);*/
-        /*props.skillAll.forEach(function(arr, idx){
+
+        //use coin duplication
+        const useCoinSkillDuplication = [0, 5, 10, 15, 20, 25];
+
+        props.skillAll.forEach(function(arr, idx){
+
             const count = props.skillAll.filter(element => arr === element).length;
-            console.log(idx, ": ", count);
 
-            if(idx === 5){
-                let coinValue;
-                if(count === 1){
-                    coinValue = copyCustom[5].useCoin;
-                }else if(count === 2){
-                    //중복 1개
-                    coinValue = copyCustom[5].useCoin + 5;
 
-                }
+            if(count === 1){
+                //중복 없음
+                setCoinValue(copyCustom[selectCombo].useCoin);
 
-                console.log(coinValue);
-                copyCustom[5].usedCoin += coinValue;
-                setCustomList(copyCustom);
+                console.log("-----------------");
+                console.log("중복 없음: ", count, "coinValue: ", coinValue);
+            }else if(count === 2){
+                //중복 1개
+                setCoinValue(copyCustom[selectCombo].useCoin + useCoinSkillDuplication[count - 1]);
+
+                console.log("-----------------");
+                console.log("중복 1개: ", count, "coinValue: ", coinValue);
+            }else if(count === 3){
+                //중복 2개
+                setCoinValue(copyCustom[selectCombo].useCoin + useCoinSkillDuplication[count - 1]);
+
+                console.log("-----------------");
+                console.log("중복 2개: ", count, "coinValue: ", coinValue);
+            }else if(count === 4){
+                //중복 3개
+                setCoinValue(copyCustom[selectCombo].useCoin + useCoinSkillDuplication[count - 1]);
+
+                console.log("-----------------");
+                console.log("중복 3개: ", count, "coinValue: ", coinValue);
+            }else if(count === 5){
+                //중복 4개
+                setCoinValue(copyCustom[selectCombo].useCoin + useCoinSkillDuplication[count - 1]);
+
+                console.log("-----------------");
+                console.log("중복 4개: ", count, "coinValue: ", coinValue);
+            }else if(count === 6){
+                //중복 5개(active 되어있는 칸 제외기 때문에 ALL 같은 스킬일 경우)
+                setCoinValue(copyCustom[selectCombo].useCoin + useCoinSkillDuplication[count - 1]);
+
+                console.log("-----------------");
+                console.log("ALL 스킬 중복: ", count, "coinValue: ", coinValue);
+            }else {
+                console.log("-----------------");
+                console.log("집계 불가");
             }
 
-        })*/
+        })
+        console.log("+++++++++++++");
 
         console.log("skillAll: ", props.skillAll);
 
 
+
+        copyCustom[selectCombo].usedCoin += coinValue;
+        //console.log("coinValue: ", coinValue);
         setAllUsedCoin(customList[0].usedCoin + customList[1].usedCoin + customList[2].usedCoin + customList[3].usedCoin + customList[4].usedCoin + customList[5].usedCoin);
-    }, [customList[0].usedCoin, customList[1].usedCoin, customList[2].usedCoin, customList[3].usedCoin, customList[4].usedCoin, customList[5].usedCoin]);
-
-
-    console.log("selectCombo: ", selectCombo);
-
+    }, [customList.usedCoin, props.skillAll]);
 
     let currentActive = ((currentIdx)=>{
         props.list.forEach(function(arr, idx){
@@ -327,7 +350,8 @@ function Custom(props) {
                                         })
                                     }
                                     <div className="combo_btn_wrap">
-                                        <p>사용한 코인 갯수 : <span>{allUsedCoin}</span>개</p>
+                                        <p>사용한 코인 총 개수 : <span>{allUsedCoin}</span>개</p>
+                                        <p>개별 사용량 : <span>{coinValue}</span>개</p>
                                     </div>
                                 </div>
                                 <ul className="skill_wrap">
@@ -335,30 +359,32 @@ function Custom(props) {
                                         props.skill.map(function (arr, idx) {
                                             return (
                                                 <li key={idx}>
-                                                    <button type="button" onClick={() => {
+                                                    <button onClick={() => {
                                                         let copy = [...props.list];
                                                         let copySkill = [...props.skillAll];
                                                         let copyCustom = [...customList];
 
+                                                        //usingPercent 관련 변수
+                                                        const percentValue = [0, 10, 10, 12, 15, 20];
+                                                        const percentBreakLimitValue = [0, 0, 2, 3, 5, 10];
                                                         const generalRandom = 98;
                                                         const IntervalProbability =  Math.floor((Math.random() * 99) + 1); //확률 값 0 ~ 100
 
-                                                        if (selectCombo === 0 && props.list[0].isActive) {
-                                                            copySkill[0] = arr;
-                                                            //copy[0].selectSkill = arr;
 
-                                                            //use coin
-                                                            //copyCustom[0].usedCoin += copyCustom[0].useCoin;
+                                                        if (selectCombo === 0 && props.list[selectCombo].isActive) {
+                                                            //0일 때만
+                                                            copySkill[selectCombo] = arr;
 
                                                             console.log("use: ", copyCustom[0].useCoin);
                                                             console.log("used: ", copyCustom[0].usedCoin);
-                                                        } else if (selectCombo === 1 && props.list[1].isActive) {
-                                                            copySkill[1] = arr;
+                                                        } else if (selectCombo === 1 && props.list[selectCombo].isActive) {
+                                                            //1일 때만(한계 돌파X)
+
+                                                            copySkill[selectCombo] = arr;
                                                             //copy[1].selectSkill = arr;
 
                                                             //using percent random value
-                                                            const percentValue = 10;
-                                                            const percentRandom = Math.floor((Math.random() * percentValue) + 1); //5구간 랜덤 수 1~10
+                                                            const percentRandom = Math.floor((Math.random() * percentValue[1]) + 1); //5구간 랜덤 수 1~10
 
                                                             //1구간 일반 랜덤 확률
                                                             copy[1].usingPercent = percentRandom;
@@ -376,124 +402,30 @@ function Custom(props) {
                                                             console.log("use: ", copyCustom[1].useCoin);
                                                             console.log("used: ", copyCustom[1].usedCoin);
 
-                                                        } else if (selectCombo === 2 && props.list[2].isActive) {
-                                                            copySkill[2] = arr;
+                                                        } else if (selectCombo !== 0 && selectCombo !== 1 && props.list[selectCombo].isActive) {
+                                                            //0, 1이 아닐 때 전부 실행
+                                                            copySkill[selectCombo] = arr;
                                                             //copy[2].selectSkill = arr;
 
                                                             //using percent random value
-                                                            const percentValue = 10;
-                                                            const percentRandom = Math.floor((Math.random() * percentValue) + 1); //5구간 랜덤 수 1~10
-                                                            const percentRandomBreakLimit = Math.floor((Math.random() * 2) + 1); //한계돌파 랜덤 수 1~2
+                                                            const percentRandom = Math.floor((Math.random() * percentValue[selectCombo]) + 1); //5구간 랜덤 수 1~10
+                                                            const percentRandomBreakLimit = Math.floor((Math.random() * percentBreakLimitValue[selectCombo]) + 1); //한계돌파 랜덤 수 1~2
 
                                                             if(IntervalProbability > generalRandom && IntervalProbability <= 100) {
                                                                 //5구간 한계 돌파 랜덤 확률 (값 > 98 && 값 <= 100)
-                                                                const percentSum = percentRandomBreakLimit + percentValue;
-                                                                copy[2].usingPercent = percentSum;
-                                                                console.log("percentSum: ", percentSum);
+                                                                const percentSum = percentRandomBreakLimit + percentValue[selectCombo];
+                                                                copy[selectCombo].usingPercent = percentSum;
 
-                                                            }else {
-                                                                //5구간 일반 랜덤 확률 (값 <=98)
-                                                                copy[2].usingPercent = percentRandom;
-                                                                console.log("percentRandom: ", percentRandom);
-                                                            }
-
-                                                            copy[1].inputPercent = copy[0].usingPercent + copy[1].usingPercent;
-                                                            copy[2].inputPercent = copy[0].usingPercent + copy[1].usingPercent + copy[2].usingPercent;
-                                                            copy[3].inputPercent = copy[0].usingPercent + copy[1].usingPercent + copy[2].usingPercent + copy[3].usingPercent;
-                                                            copy[4].inputPercent = copy[0].usingPercent + copy[1].usingPercent + copy[2].usingPercent + copy[3].usingPercent + copy[4].usingPercent;
-                                                            copy[5].inputPercent = copy[0].usingPercent + copy[1].usingPercent + copy[2].usingPercent + copy[3].usingPercent + copy[4].usingPercent + copy[5].usingPercent;
-
-                                                            //use coin
-                                                            //copyCustom[2].usedCoin += copyCustom[2].useCoin;
-
-                                                            console.log("use: ", copyCustom[2].useCoin);
-                                                            console.log("used: ", copyCustom[2].usedCoin);
-
-                                                        } else if (selectCombo === 3 && props.list[3].isActive) {
-                                                            copySkill[3] = arr;
-                                                            //copy[3].selectSkill = arr;
-
-                                                            //using percent random value
-                                                            const percentValue = 12;
-                                                            const percentRandom = Math.floor((Math.random() * percentValue) + 1); //5구간 랜덤 수 1~12
-                                                            const percentRandomBreakLimit = Math.floor((Math.random() * 3) + 1); //한계돌파 랜덤 수 1~3
-
-                                                            if(IntervalProbability > generalRandom && IntervalProbability <= 100) {
-                                                                //5구간 한계 돌파 랜덤 확률 (값 > 98 && 값 <= 100)
-                                                                const percentSum = percentRandomBreakLimit + percentValue;
-                                                                copy[3].usingPercent = percentSum;
-                                                                console.log("percentSum: ", percentSum);
-
-                                                            }else {
-                                                                //5구간 일반 랜덤 확률 (값 <=98)
-                                                                copy[3].usingPercent = percentRandom;
-                                                                console.log("percentRandom: ", percentRandom);
-                                                            }
-
-                                                            copy[1].inputPercent = copy[0].usingPercent + copy[1].usingPercent;
-                                                            copy[2].inputPercent = copy[0].usingPercent + copy[1].usingPercent + copy[2].usingPercent;
-                                                            copy[3].inputPercent = copy[0].usingPercent + copy[1].usingPercent + copy[2].usingPercent + copy[3].usingPercent;
-                                                            copy[4].inputPercent = copy[0].usingPercent + copy[1].usingPercent + copy[2].usingPercent + copy[3].usingPercent + copy[4].usingPercent;
-                                                            copy[5].inputPercent = copy[0].usingPercent + copy[1].usingPercent + copy[2].usingPercent + copy[3].usingPercent + copy[4].usingPercent + copy[5].usingPercent;
-
-                                                            //use coin
-                                                            //copyCustom[3].usedCoin += copyCustom[3].useCoin;
-
-                                                            console.log("use: ", copyCustom[3].useCoin);
-                                                            console.log("used: ", copyCustom[3].usedCoin);
-
-                                                        } else if (selectCombo === 4 && props.list[4].isActive) {
-                                                            copySkill[4] = arr;
-                                                            //copy[4].selectSkill = arr;
-
-                                                            //using percent random value
-                                                            const percentValue = 15;
-                                                            const percentRandom = Math.floor((Math.random() * percentValue) + 1); //5구간 랜덤 수 1~15
-                                                            const percentRandomBreakLimit = Math.floor((Math.random() * 5) + 1); //한계돌파 랜덤 수 1~5
-
-                                                            if(IntervalProbability > generalRandom && IntervalProbability <= 100) {
-                                                                //5구간 한계 돌파 랜덤 확률 (값 > 98 && 값 <= 100)
-                                                                const percentSum = percentRandomBreakLimit + percentValue;
-                                                                copy[4].usingPercent = percentSum;
-                                                                console.log("percentSum: ", percentSum);
-
-                                                            }else {
-                                                                //5구간 일반 랜덤 확률 (값 <=98)
-                                                                copy[4].usingPercent = percentRandom;
-                                                                console.log("percentRandom: ", percentRandom);
-                                                            }
-
-                                                            copy[1].inputPercent = copy[0].usingPercent + copy[1].usingPercent;
-                                                            copy[2].inputPercent = copy[0].usingPercent + copy[1].usingPercent + copy[2].usingPercent;
-                                                            copy[3].inputPercent = copy[0].usingPercent + copy[1].usingPercent + copy[2].usingPercent + copy[3].usingPercent;
-                                                            copy[4].inputPercent = copy[0].usingPercent + copy[1].usingPercent + copy[2].usingPercent + copy[3].usingPercent + copy[4].usingPercent;
-                                                            copy[5].inputPercent = copy[0].usingPercent + copy[1].usingPercent + copy[2].usingPercent + copy[3].usingPercent + copy[4].usingPercent + copy[5].usingPercent;
-
-                                                            //use coin
-                                                            //copyCustom[4].usedCoin += copyCustom[4].useCoin;
-                                                            console.log("use: ", copyCustom[4].useCoin);
-                                                            console.log("used: ", copyCustom[4].usedCoin);
-
-                                                        } else if (selectCombo === 5 && props.list[5].isActive) {
-                                                            copySkill[5] = arr;
-                                                            //props.setSkillAll(arr);
-                                                            //copy[5].selectSkill = arr;
-
-                                                            //using percent random value
-                                                            const percentValue = 20;
-                                                            const percentRandom = Math.floor((Math.random() * percentValue) + 1); //5구간 랜덤 수 1~20
-                                                            const percentRandomBreakLimit = Math.floor((Math.random() * 10) + 1); //한계돌파 랜덤 수 1~10
-
-                                                            if(IntervalProbability > generalRandom && IntervalProbability <= 100) {
-                                                                //5구간 한계 돌파 랜덤 확률 (값 > 98 && 값 <= 100)
-                                                                const percentSum = percentRandomBreakLimit + percentValue;
-                                                                copy[5].usingPercent = percentSum;
                                                                 //console.log("percentSum: ", percentSum);
-
+                                                                //console.log("percentValue: ", percentValue[selectCombo]);
+                                                                //console.log("percentBreakLimitValue: ", percentBreakLimitValue[selectCombo]);
                                                             }else {
                                                                 //5구간 일반 랜덤 확률 (값 <=98)
-                                                                copy[5].usingPercent = percentRandom;
+                                                                copy[selectCombo].usingPercent = percentRandom;
+
                                                                 //console.log("percentRandom: ", percentRandom);
+                                                                //console.log("percentValue: ", percentValue[selectCombo]);
+                                                                //console.log("percentBreakLimitValue: ", percentBreakLimitValue[selectCombo]);
                                                             }
 
                                                             copy[1].inputPercent = copy[0].usingPercent + copy[1].usingPercent;
@@ -502,22 +434,18 @@ function Custom(props) {
                                                             copy[4].inputPercent = copy[0].usingPercent + copy[1].usingPercent + copy[2].usingPercent + copy[3].usingPercent + copy[4].usingPercent;
                                                             copy[5].inputPercent = copy[0].usingPercent + copy[1].usingPercent + copy[2].usingPercent + copy[3].usingPercent + copy[4].usingPercent + copy[5].usingPercent;
 
-
-
                                                             //use coin
-                                                            //copyCustom[5].usedCoin += copyCustom[5].useCoin;
+                                                            /*if(){
 
+                                                            }*/
 
-                                                            /*console.log("use: ", copyCustom[5].useCoin);
-                                                            console.log("used: ", copyCustom[5].usedCoin);*/
-
+                                                            /*console.log("use: ", copyCustom[selectCombo].useCoin);
+                                                            console.log("used: ", copyCustom[selectCombo].usedCoin);*/
                                                         }
                                                         props.setList(copy);
                                                         props.setSkillAll(copySkill);
                                                         //setCustomList(copyCustom);
-
-
-                                                    }}><img src={`/images/common/skill/${arr}.jpg`} alt={`${arr}`}/>
+                                                    }} type="button"><img src={`/images/common/skill/${arr}.jpg`} alt={`${arr}`}/>
                                                     </button>
                                                 </li>
                                             )
