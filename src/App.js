@@ -9,6 +9,7 @@ import {Route, Routes} from "react-router-dom";
 const BLANK_VALUE = "blank";
 const comboSkill = ["downAttack", "assault", "defense", "lanceCharge", "rangedCombatMastery", "magnumshot", "smash", "windMill", "counterAttack","crashShot", "lightningRoad", "lightningbolt", "thunder", "iceSpear", "iceBolt", "fireball", "firebolt", "sandBurst", "waterCannon", "flame", "dashpunch", "screwupper", "pounding", "crossBuster", "shootingRush", "shurikenCharging", "shurikenStorm", "deathMarker", "chainSpinningSlash"];
 
+
 function App() {
     const [list, setList] = useState([
         {
@@ -60,15 +61,13 @@ function App() {
             usingPercent:0,
         },
     ]);
-    const [skillAll, setSkillAll] = useState([]);
     const [percentAll, setPercentAll] = useState([]);
-    //const [selectCombo, setSelectCombo ] = useState(0);
 
   return (
     <div className="App">
         <Routes>
-            <Route path="/" element={<Input blank={BLANK_VALUE} skill={comboSkill} list={list} setList={setList} setSkillAll={setSkillAll} percentAll={percentAll} setPercentAll={setPercentAll}/>}/>
-            <Route path="/custom" element={<Custom blank={BLANK_VALUE} skill={comboSkill} list={list} setList={setList} skillAll={skillAll} setSkillAll={setSkillAll} percentAll={percentAll}/>} />
+            <Route path="/" element={<Input blank={BLANK_VALUE} skill={comboSkill} list={list} setList={setList} percentAll={percentAll} setPercentAll={setPercentAll}/>}/>
+            <Route path="/custom" element={<Custom blank={BLANK_VALUE} skill={comboSkill} list={list} setList={setList} percentAll={percentAll}/>} />
         </Routes>
         <Footer/>
     </div>
