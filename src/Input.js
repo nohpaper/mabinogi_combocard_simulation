@@ -1,17 +1,17 @@
 import './stylesheet/Input.scss';
 
-import React, {useEffect, useRef, useState} from "react";
+import React, {useRef, useState} from "react";
 import {Link,} from "react-router-dom";
 
 /** HACK :
- * 1. combo_btn_wrap / reset_step 부분 동일하게 배열 copy 로 사용하였는데 다르게 작동되는 부분
- * 2. useEffect App.js로 올려야 하는
- * 3. map return 안에는 변수는 안되는데, 이럴 경우에는 forEach이 맞는 건지
+ *  //스프레드 연산자 확인
  *
  */
 /** TODO :
- * 1. percent input 태그에 mouseout 되면 숫자를 확인하고, 그 이전 콤보 카드의 percent 보다 낮을 경우 에러 표시 후 값 초기화
- *
+ * 1. map 의 arr 값 element or item 으로 변경
+ * 2. 도움말 화면 작업
+ * 3. next_step 은 로직 실행 후 이동이기떄문에 a 태그보다는 button 이 더 적합할 듯 -> button 사용 시 네비게이터로 이동
+ * 4. localstorge로 변경(이건 모두 완성된 뒤에 다른 버전으로 할 것)
  */
 
 function Input(props) {
@@ -227,49 +227,47 @@ function Input(props) {
                                                     }
                                                 </div>
                                             )
-                                        }else if(listId.id === 2 || listId.id === 4){ // 2 || 4 일때 노출
-                                            return (
-                                                <div className="combo_each" key={idx}>
-                                                    <button type="button" className="disabled_wrap" onClick={() => {
-                                                        if(props.list[listId.id - 1].isAddButton && !props.list[listId.id + 1].isAddButton ){
-                                                            // current idx - 1 , + 1 즉, 앞 뒤로 isAddButton 값이 각 true, false 일 때,
-                                                            currentActive(listId.id);
-                                                        }else {
-                                                            let copy = [...props.list];
-                                                            copy[listId.id].isAddButton = false;
-                                                            props.setList(copy);
-                                                        }
-                                                    }}>추가
-                                                    </button>
-                                                    {
-                                                        props.list[listId.id].isAddButton ?
-                                                            <div className="active_wrap">
-                                                                <div className="combo_input">
-                                                                    <input type="text" maxLength="2" onChange={(e)=>{
-                                                                        let copy = [...props.list];
-                                                                        copy[listId.id].inputPercent = e.target.value;
-                                                                        props.setList(copy);
-                                                                    }}/>
-                                                                </div>
-                                                                <button type="button" className={props.list[listId.id].isActive ? "active" : null } onClick={() => {
-                                                                    if (props.list[listId.id].isActive && selectCombo === listId.id) { // list[idx].isActive === true
-                                                                        let copy = [...props.list];
-                                                                        copy[listId.id].isActive = false;
-                                                                        props.setList(copy);
-
-                                                                        comboBtnRemove.current.classList.remove("active");
-                                                                    }else {
-                                                                        currentActive(listId.id); //isActive = true / selectCombo === idx
-                                                                    }
-                                                                }}>
-                                                                    <img src={`/images/common/skill/${props.list[listId.id].selectSkill}.jpg`} alt={`${props.list[listId.id].selectSkill}`}/>
-                                                                </button>
-                                                            </div> : null
-                                                    }
-                                                </div>
-                                            )
                                         }
+                                        return ( // 2 || 4 일때 노출
+                                            <div className="combo_each" key={idx}>
+                                                <button type="button" className="disabled_wrap" onClick={() => {
+                                                    if(props.list[listId.id - 1].isAddButton && !props.list[listId.id + 1].isAddButton ){
+                                                        // current idx - 1 , + 1 즉, 앞 뒤로 isAddButton 값이 각 true, false 일 때,
+                                                        currentActive(listId.id);
+                                                    }else {
+                                                        let copy = [...props.list];
+                                                        copy[listId.id].isAddButton = false;
+                                                        props.setList(copy);
+                                                    }
+                                                }}>추가
+                                                </button>
+                                                {
+                                                    props.list[listId.id].isAddButton ?
+                                                        <div className="active_wrap">
+                                                            <div className="combo_input">
+                                                                <input type="text" maxLength="2" onChange={(e)=>{
+                                                                    let copy = [...props.list];
+                                                                    copy[listId.id].inputPercent = e.target.value;
+                                                                    props.setList(copy);
+                                                                }}/>
+                                                            </div>
+                                                            <button type="button" className={props.list[listId.id].isActive ? "active" : null } onClick={() => {
+                                                                if (props.list[listId.id].isActive && selectCombo === listId.id) { // list[idx].isActive === true
+                                                                    let copy = [...props.list];
+                                                                    copy[listId.id].isActive = false;
+                                                                    props.setList(copy);
 
+                                                                    comboBtnRemove.current.classList.remove("active");
+                                                                }else {
+                                                                    currentActive(listId.id); //isActive = true / selectCombo === idx
+                                                                }
+                                                            }}>
+                                                                <img src={`/images/common/skill/${props.list[listId.id].selectSkill}.jpg`} alt={`${props.list[listId.id].selectSkill}`}/>
+                                                            </button>
+                                                        </div> : null
+                                                }
+                                            </div>
+                                        )
                                     })
                                 }
                                 <div className="combo_btn_wrap">
@@ -317,29 +315,43 @@ function Input(props) {
                             <Link to="/custom" className="next_step" onClick={(e) => {
                                 let alertTrigger = false;
                                 let copy = [...props.list];
-                                props.list.map(function(arr, idx){
+
+                                let _ignore = props.list.map(function(arr, idx){
                                     //확인
                                     copy[idx].isActive = false;
-                                    props.setList(copy);
 
                                     if(arr.isAddButton && arr.selectSkill === "blank" && !alertTrigger){
                                         e.preventDefault();
                                         alert("빈칸을 모두 입력해주세요");
                                         alertTrigger = true;
+                                    }else if(props.list[0].isAddButton && props.list[1].isAddButton === false && !alertTrigger) {
+                                        e.preventDefault();
+                                        alert("콤보 카드는 최소 2칸 이상이어야합니다.");
+                                        alertTrigger = true;
                                     }else {
-                                        let newSkillAll = [props.list[0].selectSkill, props.list[1].selectSkill, props.list[2].selectSkill, props.list[3].selectSkill, props.list[4].selectSkill, props.list[5].selectSkill]
-                                        let newPercentAll = [props.list[0].inputPercent, props.list[1].inputPercent, props.list[2].inputPercent, props.list[3].inputPercent, props.list[4].inputPercent, props.list[5].inputPercent]
-                                        props.setSkillAll([...newSkillAll]);
-                                        props.setPercentAll([...newPercentAll]);
+                                        if(idx !== 0){
+                                            const resultValue = props.list[idx].inputPercent - props.list[idx - 1].inputPercent;
+                                            if(Math.sign(resultValue) === -1 && !alertTrigger){
+                                                e.preventDefault();
+                                                alert("앞 칸의 퍼센트 숫자가 더 클 수 없습니다. 재입력해주세요.");
+                                                alertTrigger = true;
+                                            }
+                                        }else {
+                                            let newPercentAll = [props.list[0].inputPercent, props.list[1].inputPercent, props.list[2].inputPercent, props.list[3].inputPercent, props.list[4].inputPercent, props.list[5].inputPercent]
+                                            props.setPercentAll([...newPercentAll]);
 
-                                        props.percentAll.map(Number);
+                                            props.percentAll.map(Number);
+                                        }
                                     }
+                                    return arr
                                 });
+                                props.setList(copy);
+
                             }}>다음</Link>
 
 
                             <button type="button" className="reset_step" onClick={()=>{
-                                props.list.map(function(arr, idx){
+                                /*props.list.map(function(arr, idx){
                                     let copy = [...props.list];
                                     copy[idx].isAddButton = false;
                                     copy[idx].isActive = false;
@@ -348,11 +360,26 @@ function Input(props) {
 
                                     copy[0].isAddButton = true; //초기값
                                     props.setList(copy);
+                                })*/
+                                let copy = props.list.map(function(arr){
+                                    return {
+                                        ...arr,
+                                        isAddButton: false,
+                                        isActive: false,
+                                        selectSkill: props.blank,
+                                        inputPercent: 0,
+                                    }
                                 })
+
+                                copy[0].isAddButton = true; //초기값
+
+                                props.setList(copy);
                             }}>초기화</button>
                         </div>
                     </div>
                 </div>
+                <div className="help_container"></div>
+                <button type="button" className="help_btn">?</button>
             </section>
         </div>
     </div>
