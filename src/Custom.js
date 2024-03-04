@@ -2,6 +2,7 @@ import './stylesheet/Custom.scss';
 import React, {useEffect, useState} from "react";
 
 /** TODO :
+ * 0. 개별 사용량은 동기처리중인데, 코인 총 개수는 한발짝씩 느림
  * 1. 구간별 코인 사용량 확인되도록 처리
  * 2. 이전으로 돌아가는 버튼 생성(클릭 시 모두 초기화)
  * 3. percentAll 도 모두 list 배열 안의 내용으로 변경
@@ -50,6 +51,7 @@ function Custom(props) {
     useEffect(()=>{
         //usingPercent 삽입
         const copy = [...props.list];
+        let copyCustom = [...customList];
 
         props.percentAll.forEach(function(arr, idx){
             if(idx > 0){
@@ -57,6 +59,10 @@ function Custom(props) {
             }
         });
         props.setList(copy);
+
+        // copyCustom[selectCombo].usedCoin += coinValue;
+        // setAllUsedCoin(customList[0].usedCoin + customList[1].usedCoin + customList[2].usedCoin + customList[3].usedCoin + customList[4].usedCoin + customList[5].usedCoin);
+        console.log("useEffect: ", coinValue);
 
     }, [props.percentAll]);
 
@@ -177,8 +183,8 @@ function Custom(props) {
                         <div className="random_wrap">
                             <ul>
                                 <li className="active">일반</li>
-                                <li>골든</li>
-                                <li>블랙</li>
+                                {/*<li>골든</li>
+                                <li>블랙</li>*/}
                             </ul>
                             <div className="random_inner">
                                 <div className="combocard_wrap">
@@ -367,11 +373,7 @@ function Custom(props) {
                                                         }else {
                                                             console.log("집계 불가");
                                                         }
-
-
-                                                        copyCustom[selectCombo].usedCoin += coinValue;
-                                                        setAllUsedCoin(customList[0].usedCoin + customList[1].usedCoin + customList[2].usedCoin + customList[3].usedCoin + customList[4].usedCoin + customList[5].usedCoin);
-
+                                                        console.log("onClick: ", coinValue);
                                                     }} type="button"><img src={`/images/common/skill/${arr}.jpg`} alt={`${arr}`}/>
                                                     </button>
                                                 </li>
