@@ -34,7 +34,7 @@ $bold:700;
 $NotosansKR:"Noto Sans KR", Gulim, Malgun Gothic, Arial, Apple SD Gothic Neo, sans-serif;
 $Mabinogi:"Mabinogi", Gulim, Malgun Gothic, Arial, Apple SD Gothic Neo, sans-serif;
 
-@mixin Boxshadow ($color) {
+@mixin textShadow ($color) {
     text-shadow:0 0 4px $color, 0 0 4px $color, 0 0 4px $color, 0 0 4px $color;
 }
 

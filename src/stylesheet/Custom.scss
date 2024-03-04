@@ -5,13 +5,13 @@ section.random_step {
     h1 { font-size:30px; font-weight:$bold; text-align:center;  }
     .container {
         max-width:488px; margin: 0 auto; padding-top: 30px;
-        h5 { width:100%; padding-left:57px; box-sizing:border-box; color:white; font-size:16px; font-weight:$regular; line-height:54px; font-family:$Mabinogi; background:url(../../public/images/common/bg_top.png) 50% 50% /cover no-repeat; @include Boxshadow(#838383) }
+        h5 { width:100%; padding-left:57px; box-sizing:border-box; color:white; font-size:16px; font-weight:$regular; line-height:54px; font-family:$Mabinogi; background:url(../../public/images/common/bg_top.png) 50% 50% /cover no-repeat; @include textShadow(#838383) }
         .random_wrap {
             max-width:484px; margin:0 auto; background:url(../../public/images/common/bg_content.jpg) 50% 50% /100% 100% no-repeat;
             > ul {
                 margin:0 8px; padding-top:6px; font-size:0; border-bottom:2px solid black;
                 li {
-                    display:inline-block; position:relative; top:2px; padding:0 9px; margin-left:4px; color:white; font-size:16px; font-weight:$regular; line-height:38px; font-family:$Mabinogi; background:url(../../public/images/step1/tab_disabled_bg.jpg) 50% 50% /cover no-repeat; @include Boxshadow(#838383);
+                    display:inline-block; position:relative; top:2px; padding:0 9px; margin-left:4px; color:white; font-size:16px; font-weight:$regular; line-height:38px; font-family:$Mabinogi; background:url(../../public/images/step1/tab_disabled_bg.jpg) 50% 50% /cover no-repeat; @include textShadow(#838383);
                     &:before { content:""; width:9px; height:38px; position:absolute; top:0; left:0; background:url(../../public/images/step1/tab_disabled_round.jpg) 50% 50% /cover no-repeat; }
                     &:after { content:""; width:9px; height:38px; position:absolute; top:0; right:0; transform:rotateY(180deg); background:url(../../public/images/step1/tab_disabled_round.jpg) 50% 50% /cover no-repeat; }
                     &.active {
@@ -30,11 +30,11 @@ section.random_step {
                         .active_wrap {
                             height:100%; position:relative;
                             .combo_value {
-                                display:inline-block; vertical-align:top; position:relative; color:#ffff5c; font-size:16px; font-family:$Mabinogi; @include Boxshadow(#cf290f);
+                                display:inline-block; vertical-align:top; position:relative; color:#ffff5c; font-size:16px; font-family:$Mabinogi; @include textShadow(#cf290f);
                                 &:before { content:"+"; position:absolute; top:50%; left:13px;  transform:translate(0, -50%); }
                                 &:after { content:"%"; position:absolute; top:50%; right:13px;  transform:translate(0, -50%); }
                                 > span {
-                                    width:20px; height:20px; display:inline-block; color:#ffff5c; padding:16px 23px; border:0; font-size:16px; line-height:20px; font-family:$Mabinogi; background-color:black; @include Boxshadow(#cf290f);
+                                    width:20px; height:20px; display:inline-block; color:#ffff5c; padding:16px 23px; border:0; font-size:16px; line-height:20px; font-family:$Mabinogi; background-color:black; @include textShadow(#cf290f);
                                 }
                             }
                             > button {
@@ -44,7 +44,7 @@ section.random_step {
                                 }
                                 > img { width:100%; height:100%; }
                             }
-                            .combo_count { min-width:14px; position:absolute; top:75%; right:0; padding:4px 5px 0; color:white; border:1px solid #7b7c7e; border-radius:100%; font-size:13px; font-weight:$regular; line-height:18px; text-align:center; font-family:$Mabinogi; background-color:black; @include Boxshadow(black) }
+                            .combo_count { min-width:14px; position:absolute; top:75%; right:0; padding:4px 5px 0; color:white; border:1px solid #7b7c7e; border-radius:100%; font-size:13px; font-weight:$regular; line-height:18px; text-align:center; font-family:$Mabinogi; background-color:black; @include textShadow(black) }
                         }
                         &:nth-of-type(1) { top:134px; left:92px; }
                         &:nth-of-type(2) {
@@ -70,7 +70,7 @@ section.random_step {
                     }
                     .combo_btn_wrap {
                         width:264px; position:absolute; bottom:28px; left:50%; padding:18px 0; text-align:center; transform:translateX(-50%);
-                        p { color:white; font-size:12px; font-weight:$regular; line-height:28px; font-family:$Mabinogi; @include Boxshadow(#555353); }
+                        p { color:white; font-size:12px; font-weight:$regular; line-height:28px; font-family:$Mabinogi; @include textShadow(#555353); }
                     }
                 }
                 .skill_wrap {

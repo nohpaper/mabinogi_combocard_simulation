@@ -17,6 +17,8 @@ import {Link,} from "react-router-dom";
 function Input(props) {
     const [selectCombo, setSelectCombo ] = useState(0);
     const comboBtnRemove = useRef();
+    
+    const [helpIndex, setHelpIndex] = useState(0);
 
     let currentActive = ((currentIdx)=>{
         props.list.forEach(function(arr, idx){
@@ -156,8 +158,8 @@ function Input(props) {
                     <div className="input_wrap">
                         <ul>
                             <li className="active">일반</li>
-                            <li>골든</li>
-                            <li>블랙</li>
+                            {/*<li>골든</li>
+                            <li>블랙</li>*/}
                         </ul>
                         <div className="input_inner">
                             <div className="combocard_wrap">
@@ -378,14 +380,87 @@ function Input(props) {
                         </div>
                     </div>
                 </div>
-                <div className="help_container"></div>
-                <button type="button" className="help_btn">?</button>
+                <div className="help_container">
+                    <h5>? 콤보카드 시뮬레이터 도움말</h5>
+                    <ul className="tab_wrap">
+                        <li className={helpIndex === 0 ? "active" : null} onClick={()=>{setHelpIndex(0);}}>정보</li>
+                        <li className={helpIndex === 1 ? "active" : null} onClick={()=>{setHelpIndex(1);}}>추가하는 법</li>
+                        <li className={helpIndex === 2 ? "active" : null} onClick={()=>{setHelpIndex(2);}}>스킬 입력</li>
+                        <li className={helpIndex === 3 ? "active" : null} onClick={()=>{setHelpIndex(3);}}>퍼센트 입력</li>
+                        <li className={helpIndex === 4 ? "active" : null} onClick={()=>{setHelpIndex(4);}}>제거하는 법</li>
+                    </ul>
+                    <ul className="tab_cont">
+                        <li className={helpIndex === 0 ? "active" : null}>
+                            <div>
+                                <strong>1</strong>
+                                <p>활성화된 콤보 칸(3번)에서 스킬 선택 시 해당 스킬로 교체되는 콤보 칸 (총 6칸)</p>
+                            </div>
+                            <div>
+                                <strong>2</strong>
+                                <p>해당 콤보 칸의 스킬 퍼센트</p>
+                            </div>
+                            <div>
+                                <strong>3</strong>
+                                <p>해당 콤보 칸의 스킬 선택 활성화</p>
+                            </div>
+                            <div>
+                                <strong>4</strong>
+                                <p>콤보 칸 추가 버튼(관련 내용은 "추가하는 법" 탭 내용 확인)</p>
+                            </div>
+                            <div>
+                                <strong>5</strong>
+                                <p>콤보 칸 제거 버튼(관련 내용은 "제거하는 법" 탭 내용 확인)</p>
+                            </div>
+                            <div>
+                                <strong>6</strong>
+                                <p>콤보 칸에 선택할 수 있는 스킬의 종류(인 게임과 종류 동일)</p>
+                            </div>
+                            <img src="./images/step1/info_img.jpg" alt=""/>
+                        </li>
+                        <li className={helpIndex === 1 ? "active" : null}>
+                            <p>
+                                본인이 사용할 콤보 칸만큼 앞에서부터 순서대로 추가 버튼을 눌러 사용합니다.<br/>
+                                * 중간에 있는 콤보 칸을 먼저 늘릴 수 없습니다.
+                            </p>
+                        </li>
+                        <li className={helpIndex === 2 ? "active" : null}>
+                            <div>
+                                <strong>1</strong>
+                                <strong>2</strong>
+                                <strong>3</strong>
+                                <strong>4</strong>
+                                <p>본인이 추가한 콤보 칸</p>
+                            </div>
+                            <div>
+                                <strong>3</strong>
+                                <p>스킬 선택 가능한 콤보 칸 (5번에서 스킬 선택 시 3번 콤보 칸에 입력됩니다.)</p>
+                            </div>
+                            <div>
+                                <strong>5</strong>
+                                <p>콤보 칸이 활성화되어 있는 상태에서 스킬 선택 시 해당 콤보 칸에 스킬이 입력됩니다.</p>
+                            </div>
+                            <img src="./images/step1/skill_img.jpg" alt=""/>
+                        </li>
+                        <li className={helpIndex === 3 ? "active" : null}>
+                            <p>
+                                가지고 있는 콤보 카드의 퍼센트를 입력할 수 있습니다.<br/>
+                                정보 탭에 있는 3번(콤보 칸 활성화)와 무관합니다.<br/>
+                                퍼센트 값을 채우지 않은 채로 "다음"버튼을 눌러 커스텀을 진행할 수 있습니다.
+                            </p>
+                        </li>
+                        <li className={helpIndex === 4 ? "active" : null}>
+                            <p>
+                                제거하고 싶은 부분의 콤보 칸을 클릭하여 활성화한 뒤 제거 버튼을 클릭합니다.<br/>
+                                이 때, 3번에서 클릭시 3~6번째의 칸이 비활성화되며 선택, 입력했던 스킬과 퍼센트가 초기화됩니다.
+                            </p>
+                        </li>
+                    </ul>
+                </div>
             </section>
         </div>
     </div>
   );
 }
-
 
 
 export default Input;
