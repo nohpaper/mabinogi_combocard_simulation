@@ -4,7 +4,7 @@ section.random_step {
     padding:50px 0;
     h1 { font-size:30px; font-weight:$bold; text-align:center;  }
     .container {
-        max-width:488px; margin: 0 auto; padding-top: 30px;
+        max-width:488px; display:inline-block; margin: 0 auto; padding-top: 30px;
         h5 { width:100%; padding-left:57px; box-sizing:border-box; color:white; font-size:16px; font-weight:$regular; line-height:54px; font-family:$Mabinogi; background:url(../../public/images/common/bg_top.png) 50% 50% /cover no-repeat; @include textShadow(#838383) }
         .random_wrap {
             max-width:484px; margin:0 auto; background:url(../../public/images/common/bg_content.jpg) 50% 50% /100% 100% no-repeat;
@@ -89,6 +89,44 @@ section.random_step {
                         }
                     }
                 }
+            }
+            .btn_wrap {
+                padding-bottom:20px; text-align:center;
+                a, button { display:inline-block; margin:0 2px; padding:0 30px; color:white; border:0; font-size:14px; font-weight:$regular; line-height:38px; text-decoration:none; font-family:$Mabinogi; cursor:pointer; background:url(../../public/images/common/btn_bg.png) 50% 50% /100% 100% no-repeat; @include textShadow(black); }
+            }
+        }
+    }
+    .description {
+        width:488px; height:633px; display:inline-block; margin:30px 0 0 10px; border:1px solid #303030; border-radius:3px; text-align:left; vertical-align:top; font-family:$Mabinogi; background-color:#7f7f7f;
+        h5 { padding:18px 15px; color:white; @include textShadow(#838383); }
+        > .tab_wrap {
+            margin:0 8px; padding-top:6px; font-size:0; border-bottom:2px solid black; text-align:left;
+            li {
+                display:inline-block; position:relative; top:2px; padding:0 9px; margin-left:4px; color:white; cursor:pointer; border-width:2px 2px 0 2px; border-style:solid; border-color:black; border-radius:3px 3px 0 3px; font-size:16px; font-weight:$regular; line-height:38px; background-color:#2c2c2c; @include textShadow(#838383);
+                &.active { border-color:#303030; background-color:#7f7f7f; }
+            }
+        }
+        > .tab_cont {
+            position:relative;
+            li {
+                height:500px; position:absolute; top:0; left:0; margin-top:15px; color:white; opacity:0; visibility:hidden; text-align:center; overflow-y:auto;
+                &::-webkit-scrollbar { background-color:#2c2c2c; }
+                &::-webkit-scrollbar-track { background-color:#2c2c2c; }
+                &::-webkit-scrollbar-thumb { background-color:#7f7f7f; border:2px solid #303030; border-radius:2px; }
+                &::-webkit-scrollbar-button { background-color:#7f7f7f; border:2px solid #303030; border-radius:2px; }
+                &.active { opacity:1; visibility:inherit; }
+            }
+            li:nth-of-type(1) {
+                width:100%; font-size:0;
+                strong { display:block; padding-left:10px; font-size:14px; line-height:22px; text-align:left; }
+                > .coin_box {
+                    margin:5px 10px 0; padding:15px 0; box-sizing:border-box; border-radius:3px; font-size:14px; line-height:22px; background-color:rgba(19,19,19,.5);
+                    > p {
+                        width:25%; display:inline-block; text-align:left;
+                        span { display:inline-block; padding:5px 5px 0 5px; border-radius:100%; line-height:12px; background-color:black; }
+                    }
+                }
+                > p { padding-top:10px; font-size:14px; line-height:22px; }
             }
         }
     }

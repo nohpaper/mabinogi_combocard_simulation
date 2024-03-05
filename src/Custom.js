@@ -1,13 +1,15 @@
 import './stylesheet/Custom.scss';
 import React, {useEffect, useState} from "react";
+import { useNavigate } from "react-router-dom";
+import {Link} from "react-router-dom";
 
 /** TODO :
- * 0. 개별 사용량은 동기처리중인데, 코인 총 개수는 한발짝씩 느림
+ * 0. ok --- 개별 사용량은 동기처리중인데, 코인 총 개수는 한발짝씩 느림
  * 1. 구간별 코인 사용량 확인되도록 처리
- * 2. 이전으로 돌아가는 버튼 생성(클릭 시 모두 초기화)
+ * 2. ok --- 이전으로 돌아가는 버튼 생성(클릭 시 모두 초기화)
  * 3. percentAll 도 모두 list 배열 안의 내용으로 변경
  * 4. inputPercent 과 usingPercent 사용처 정확히 할 것
- *
+ * 5. custom.js에서 넘어온 값으로 초기화하기는 v2.0에서
  */
 
 function Custom(props) {
@@ -46,12 +48,14 @@ function Custom(props) {
     const [selectCombo, setSelectCombo ] = useState(0);
     const [allUsedCoin, setAllUsedCoin ] = useState(0);
     const [coinValue, setCoinValue] = useState(0);
+    const navigate = useNavigate();
+
+    const [descriptionIndex, setDescriptionIndex] = useState(0);
 
 
     useEffect(()=>{
         //usingPercent 삽입
         const copy = [...props.list];
-        let copyCustom = [...customList];
 
         props.percentAll.forEach(function(arr, idx){
             if(idx > 0){
@@ -60,12 +64,14 @@ function Custom(props) {
         });
         props.setList(copy);
 
-        // copyCustom[selectCombo].usedCoin += coinValue;
-        // setAllUsedCoin(customList[0].usedCoin + customList[1].usedCoin + customList[2].usedCoin + customList[3].usedCoin + customList[4].usedCoin + customList[5].usedCoin);
-        console.log("useEffect: ", coinValue);
-
     }, [props.percentAll]);
 
+    useEffect(() => {
+        //코인 사용량 삽입 관련 useEffect
+        let copyCustom = [...customList];
+        copyCustom[selectCombo].usedCoin += coinValue;
+        setAllUsedCoin(customList[0].usedCoin + customList[1].usedCoin + customList[2].usedCoin + customList[3].usedCoin + customList[4].usedCoin + customList[5].usedCoin);
+    }, [props.list[0].usingPercent, props.list[1].usingPercent, props.list[2].usingPercent, props.list[3].usingPercent, props.list[4].usingPercent, props.list[5].usingPercent]);
 
     let currentActive = ((currentIdx)=>{
         props.list.forEach(function(arr, idx){
@@ -277,7 +283,6 @@ function Custom(props) {
                                     }
                                     <div className="combo_btn_wrap">
                                         <p>사용한 코인 총 개수 : <span>{allUsedCoin}</span>개</p>
-                                        <p>개별 사용량 : <span>{coinValue}</span>개</p>
                                     </div>
                                 </div>
                                 <ul className="skill_wrap">
@@ -293,7 +298,7 @@ function Custom(props) {
                                                         const percentValue = [0, 10, 10, 12, 15, 20];
                                                         const percentBreakLimitValue = [0, 0, 2, 3, 5, 10];
                                                         const generalRandom = 98;
-                                                        const IntervalProbability =  Math.floor((Math.random() * 99) + 1); //확률 값 0 ~ 100
+                                                        const IntervalProbability = Math.floor((Math.random() * 99) + 1); //확률 값 0 ~ 100
 
                                                         //use coin duplication 변수
                                                         const useCoinSkillDuplication = [0, 5, 10, 15, 20, 25];
@@ -324,8 +329,6 @@ function Custom(props) {
                                                             //use coin
                                                             //copyCustom[1].usedCoin += copyCustom[1].useCoin;
 
-                                                            console.log("use: ", copyCustom[1].useCoin);
-                                                            console.log("used: ", copyCustom[1].usedCoin);
 
                                                         } else if (selectCombo !== 0 && selectCombo !== 1 && props.list[selectCombo].isActive) {
                                                             //0, 1이 아닐 때 전부 실행
@@ -335,21 +338,13 @@ function Custom(props) {
                                                             const percentRandom = Math.floor((Math.random() * percentValue[selectCombo]) + 1); //5구간 랜덤 수 1~10
                                                             const percentRandomBreakLimit = Math.floor((Math.random() * percentBreakLimitValue[selectCombo]) + 1); //한계돌파 랜덤 수 1~2
 
-                                                            if(IntervalProbability > generalRandom && IntervalProbability <= 100) {
+                                                            if (IntervalProbability > generalRandom && IntervalProbability <= 100) {
                                                                 //5구간 한계 돌파 랜덤 확률 (값 > 98 && 값 <= 100)
                                                                 const percentSum = percentRandomBreakLimit + percentValue[selectCombo];
                                                                 copy[selectCombo].usingPercent = percentSum;
-
-                                                                //console.log("percentSum: ", percentSum);
-                                                                //console.log("percentValue: ", percentValue[selectCombo]);
-                                                                //console.log("percentBreakLimitValue: ", percentBreakLimitValue[selectCombo]);
-                                                            }else {
+                                                            } else {
                                                                 //5구간 일반 랜덤 확률 (값 <=98)
                                                                 copy[selectCombo].usingPercent = percentRandom;
-
-                                                                //console.log("percentRandom: ", percentRandom);
-                                                                //console.log("percentValue: ", percentValue[selectCombo]);
-                                                                //console.log("percentBreakLimitValue: ", percentBreakLimitValue[selectCombo]);
                                                             }
 
                                                             copy[1].inputPercent = copy[0].usingPercent + copy[1].usingPercent;
@@ -357,24 +352,24 @@ function Custom(props) {
                                                             copy[3].inputPercent = copy[0].usingPercent + copy[1].usingPercent + copy[2].usingPercent + copy[3].usingPercent;
                                                             copy[4].inputPercent = copy[0].usingPercent + copy[1].usingPercent + copy[2].usingPercent + copy[3].usingPercent + copy[4].usingPercent;
                                                             copy[5].inputPercent = copy[0].usingPercent + copy[1].usingPercent + copy[2].usingPercent + copy[3].usingPercent + copy[4].usingPercent + copy[5].usingPercent;
-                                                            
+
                                                         }
                                                         props.setList(copy);
 
                                                         //use coin duplication
 
                                                         const count = copy.filter(element => copy[selectCombo].selectSkill === element.selectSkill).length;
-                                                        if(count === 1){
+                                                        if (count === 1) {
                                                             //중복 없음
                                                             setCoinValue(copyCustom[selectCombo].useCoin);
-                                                        }else if(count !== 1){
+                                                        } else if (count !== 1) {
                                                             //중복 1개
                                                             setCoinValue(copyCustom[selectCombo].useCoin + useCoinSkillDuplication[count - 1]);
-                                                        }else {
+                                                        } else {
                                                             console.log("집계 불가");
                                                         }
-                                                        console.log("onClick: ", coinValue);
-                                                    }} type="button"><img src={`/images/common/skill/${arr}.jpg`} alt={`${arr}`}/>
+                                                    }} type="button"><img src={`/images/common/skill/${arr}.jpg`}
+                                                                          alt={`${arr}`}/>
                                                     </button>
                                                 </li>
                                             )
@@ -382,7 +377,71 @@ function Custom(props) {
                                     }
                                 </ul>
                             </div>
+                            <div className="btn_wrap">
+                                <button type="button" onClick={() => {
+                                    navigate(-1);
+
+                                    console.log(props.list);
+
+                                    let copy = props.list.map(function(arr){
+                                        return {
+                                            ...arr,
+                                            isAddButton: false,
+                                            isActive: false,
+                                            selectSkill: props.blank,
+                                            inputPercent: 0,
+                                            usingPercent: 0,
+                                        }
+                                    })
+
+                                    copy[0].isAddButton = true; //초기값
+
+                                    props.setList(copy);
+                                }}>처음부터
+                                </button>
+                                {/*<button type="button" onClick={() => {
+
+                                }}>여기서 다시 하기
+                                </button>*/}
+                            </div>
                         </div>
+                    </div>
+                    <div className="description">
+                        <h5>? 콤보카드 시뮬레이터 도움말</h5>
+                        <ul className="tab_wrap">
+                            <li className={descriptionIndex === 0 ? "active" : null} onClick={() => {
+                                setDescriptionIndex(0);
+                            }}>승단 뱃지 사용량
+                            </li>
+                            <li className={descriptionIndex === 1 ? "active" : null} onClick={() => {
+                                setDescriptionIndex(1);
+                            }}>사용법
+                            </li>
+                        </ul>
+                        <ul className="tab_cont">
+                            <li className={descriptionIndex === 0 ? "active" : null}>
+                                <strong>사용된 승단 뱃지</strong>
+                                <div className="coin_box">
+                                    <p>
+                                        <span>1</span> {customList[0].usedCoin}개<br/>
+                                        <span>3</span> {customList[2].usedCoin}개<br/>
+                                        <span>5</span> {customList[4].usedCoin}개<br/>
+                                    </p>
+                                    <p>
+                                        <span>2</span> {customList[1].usedCoin}개<br/>
+                                        <span>4</span> {customList[3].usedCoin}개<br/>
+                                        <span>6</span> {customList[5].usedCoin}개<br/>
+                                    </p>
+                                </div>
+                                <p>현재 뱃지 사용량: {coinValue}개 / 사용한 뱃지 총 개수: {allUsedCoin}개</p>
+                            </li>
+                            <li className={descriptionIndex === 1 ? "active" : null}>
+                                <p>
+                                    본인이 사용할 콤보 칸만큼 앞에서부터 순서대로 추가 버튼을 눌러 사용합니다.<br/>
+                                    * 중간에 있는 콤보 칸을 먼저 늘릴 수 없습니다.
+                                </p>
+                            </li>
+                        </ul>
                     </div>
                 </section>
             </div>
