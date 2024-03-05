@@ -18,7 +18,7 @@ function Input(props) {
     const [selectCombo, setSelectCombo ] = useState(0);
     const comboBtnRemove = useRef();
     
-    const [helpIndex, setHelpIndex] = useState(0);
+    const [descriptionIndex, setDescriptionIndex] = useState(0);
 
     let currentActive = ((currentIdx)=>{
         props.list.forEach(function(arr, idx){
@@ -332,12 +332,18 @@ function Input(props) {
                                         alertTrigger = true;
                                     }else {
                                         if(idx !== 0){
-                                            const resultValue = props.list[idx].inputPercent - props.list[idx - 1].inputPercent;
+                                            let resultValue;
+                                            if(arr.isAddButton){
+                                                //isAddButton: true 인 것들만 실행
+                                                resultValue = props.list[idx].inputPercent - props.list[idx - 1].inputPercent;
+                                            }
+
                                             if(Math.sign(resultValue) === -1 && !alertTrigger){
                                                 e.preventDefault();
                                                 alert("앞 칸의 퍼센트 숫자가 더 클 수 없습니다. 재입력해주세요.");
                                                 alertTrigger = true;
                                             }
+                                            //값이 양수거나 undefined 일 시 무시
                                         }else {
                                             let newPercentAll = [props.list[0].inputPercent, props.list[1].inputPercent, props.list[2].inputPercent, props.list[3].inputPercent, props.list[4].inputPercent, props.list[5].inputPercent]
                                             props.setPercentAll([...newPercentAll]);
@@ -380,17 +386,17 @@ function Input(props) {
                         </div>
                     </div>
                 </div>
-                <div className="help_container">
+                <div className="description">
                     <h5>? 콤보카드 시뮬레이터 도움말</h5>
                     <ul className="tab_wrap">
-                        <li className={helpIndex === 0 ? "active" : null} onClick={()=>{setHelpIndex(0);}}>정보</li>
-                        <li className={helpIndex === 1 ? "active" : null} onClick={()=>{setHelpIndex(1);}}>추가하는 법</li>
-                        <li className={helpIndex === 2 ? "active" : null} onClick={()=>{setHelpIndex(2);}}>스킬 입력</li>
-                        <li className={helpIndex === 3 ? "active" : null} onClick={()=>{setHelpIndex(3);}}>퍼센트 입력</li>
-                        <li className={helpIndex === 4 ? "active" : null} onClick={()=>{setHelpIndex(4);}}>제거하는 법</li>
+                        <li className={descriptionIndex === 0 ? "active" : null} onClick={()=>{setDescriptionIndex(0);}}>정보</li>
+                        <li className={descriptionIndex === 1 ? "active" : null} onClick={()=>{setDescriptionIndex(1);}}>추가하는 법</li>
+                        <li className={descriptionIndex === 2 ? "active" : null} onClick={()=>{setDescriptionIndex(2);}}>스킬 입력</li>
+                        <li className={descriptionIndex === 3 ? "active" : null} onClick={()=>{setDescriptionIndex(3);}}>퍼센트 입력</li>
+                        <li className={descriptionIndex === 4 ? "active" : null} onClick={()=>{setDescriptionIndex(4);}}>제거하는 법</li>
                     </ul>
                     <ul className="tab_cont">
-                        <li className={helpIndex === 0 ? "active" : null}>
+                        <li className={descriptionIndex === 0 ? "active" : null}>
                             <div>
                                 <strong>1</strong>
                                 <p>활성화된 콤보 칸(3번)에서 스킬 선택 시 해당 스킬로 교체되는 콤보 칸 (총 6칸)</p>
@@ -417,13 +423,13 @@ function Input(props) {
                             </div>
                             <img src="./images/step1/info_img.jpg" alt=""/>
                         </li>
-                        <li className={helpIndex === 1 ? "active" : null}>
+                        <li className={descriptionIndex === 1 ? "active" : null}>
                             <p>
                                 본인이 사용할 콤보 칸만큼 앞에서부터 순서대로 추가 버튼을 눌러 사용합니다.<br/>
                                 * 중간에 있는 콤보 칸을 먼저 늘릴 수 없습니다.
                             </p>
                         </li>
-                        <li className={helpIndex === 2 ? "active" : null}>
+                        <li className={descriptionIndex === 2 ? "active" : null}>
                             <div>
                                 <strong>1</strong>
                                 <strong>2</strong>
@@ -441,14 +447,14 @@ function Input(props) {
                             </div>
                             <img src="./images/step1/skill_img.jpg" alt=""/>
                         </li>
-                        <li className={helpIndex === 3 ? "active" : null}>
+                        <li className={descriptionIndex === 3 ? "active" : null}>
                             <p>
                                 가지고 있는 콤보 카드의 퍼센트를 입력할 수 있습니다.<br/>
                                 정보 탭에 있는 3번(콤보 칸 활성화)와 무관합니다.<br/>
                                 퍼센트 값을 채우지 않은 채로 "다음"버튼을 눌러 커스텀을 진행할 수 있습니다.
                             </p>
                         </li>
-                        <li className={helpIndex === 4 ? "active" : null}>
+                        <li className={descriptionIndex === 4 ? "active" : null}>
                             <p>
                                 제거하고 싶은 부분의 콤보 칸을 클릭하여 활성화한 뒤 제거 버튼을 클릭합니다.<br/>
                                 이 때, 3번에서 클릭시 3~6번째의 칸이 비활성화되며 선택, 입력했던 스킬과 퍼센트가 초기화됩니다.
