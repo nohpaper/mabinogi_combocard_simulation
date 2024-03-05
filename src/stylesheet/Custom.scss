@@ -1,13 +1,13 @@
 @import './defalut';
 
 section.random_step {
-    padding:50px 0;
+    padding:50px 0; text-align:center;
     h1 { font-size:30px; font-weight:$bold; text-align:center;  }
     .container {
-        max-width:488px; display:inline-block; margin: 0 auto; padding-top: 30px;
+        width:488px; display:inline-block; margin: 0 auto; padding-top: 30px; text-align:left;
         h5 { width:100%; padding-left:57px; box-sizing:border-box; color:white; font-size:16px; font-weight:$regular; line-height:54px; font-family:$Mabinogi; background:url(../../public/images/common/bg_top.png) 50% 50% /cover no-repeat; @include textShadow(#838383) }
         .random_wrap {
-            max-width:484px; margin:0 auto; background:url(../../public/images/common/bg_content.jpg) 50% 50% /100% 100% no-repeat;
+            max-width:484px; margin:0 auto; text-align:left; background:url(../../public/images/common/bg_content.jpg) 50% 50% /100% 100% no-repeat;
             > ul {
                 margin:0 8px; padding-top:6px; font-size:0; border-bottom:2px solid black;
                 li {

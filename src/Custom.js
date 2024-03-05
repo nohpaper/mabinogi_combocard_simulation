@@ -282,7 +282,7 @@ function Custom(props) {
                                         })
                                     }
                                     <div className="combo_btn_wrap">
-                                        <p>사용한 코인 총 개수 : <span>{allUsedCoin}</span>개</p>
+                                        <p>사용한 뱃지 총 개수 : <span>{allUsedCoin}</span>개</p>
                                     </div>
                                 </div>
                                 <ul className="skill_wrap">
