@@ -1,18 +1,14 @@
 import './stylesheet/Custom.scss';
 import React, {useEffect, useState} from "react";
 import { useNavigate } from "react-router-dom";
-import {Link} from "react-router-dom";
 
 /** TODO :
- * 0. ok --- 개별 사용량은 동기처리중인데, 코인 총 개수는 한발짝씩 느림
- * 1. 구간별 코인 사용량 확인되도록 처리
- * 2. ok --- 이전으로 돌아가는 버튼 생성(클릭 시 모두 초기화)
- * 3. percentAll 도 모두 list 배열 안의 내용으로 변경
- * 4. inputPercent 과 usingPercent 사용처 정확히 할 것
+ * 1. 사용법 자세히 작성
  * 5. custom.js에서 넘어온 값으로 초기화하기는 v2.0에서
  */
 
 function Custom(props) {
+    const navigate = useNavigate();
     const [customList, setCustomList] = useState([
         {
             id:0,
@@ -48,12 +44,11 @@ function Custom(props) {
     const [selectCombo, setSelectCombo ] = useState(0);
     const [allUsedCoin, setAllUsedCoin ] = useState(0);
     const [coinValue, setCoinValue] = useState(0);
-    const navigate = useNavigate();
 
     const [descriptionIndex, setDescriptionIndex] = useState(0);
 
 
-    useEffect(()=>{
+    /*useEffect(()=>{
         //usingPercent 삽입
         const copy = [...props.list];
 
@@ -64,7 +59,20 @@ function Custom(props) {
         });
         props.setList(copy);
 
-    }, [props.percentAll]);
+    }, [props.percentAll]);*/
+
+    useEffect(()=>{
+        //usingPercent 삽입
+        const copy = [...props.list];
+
+        copy.forEach(function(arr, idx){
+            if(idx > 0){
+                copy[idx].usingPercent = copy[idx].inputPercent - copy[idx - 1].inputPercent;
+            }
+        });
+        props.setList(copy);
+
+    }, [props.list.inputPercent]);
 
     useEffect(() => {
         //코인 사용량 삽입 관련 useEffect
@@ -210,7 +218,7 @@ function Custom(props) {
                                                                         currentActive(listIdIdx); //isActive = true / selectCombo === idx
                                                                     }}>
                                                                 <img
-                                                                    src={`/images/common/skill/${props.list[listIdIdx].selectSkill}.jpg`}
+                                                                    src={`./images/common/skill/${props.list[listIdIdx].selectSkill}.jpg`}
                                                                     alt={`${props.list[listIdIdx].selectSkill}`}/>
                                                             </button>
                                                         </div>
@@ -235,7 +243,7 @@ function Custom(props) {
                                                                                     }
                                                                                 }}>
                                                                             <img
-                                                                                src={`/images/common/skill/${props.list[listIdIdx].selectSkill}.jpg`}
+                                                                                src={`./images/common/skill/${props.list[listIdIdx].selectSkill}.jpg`}
                                                                                 alt={`${props.list[listIdIdx].selectSkill}`}/>
                                                                         </button>
                                                                         <div className="combo_value">
@@ -271,7 +279,7 @@ function Custom(props) {
                                                                                 }
                                                                             }}>
                                                                         <img
-                                                                            src={`/images/common/skill/${props.list[listIdIdx].selectSkill}.jpg`}
+                                                                            src={`./images/common/skill/${props.list[listIdIdx].selectSkill}.jpg`}
                                                                             alt={`${props.list[listIdIdx].selectSkill}`}/>
                                                                     </button>
                                                                 </div>
@@ -368,7 +376,7 @@ function Custom(props) {
                                                         } else {
                                                             console.log("집계 불가");
                                                         }
-                                                    }} type="button"><img src={`/images/common/skill/${arr}.jpg`}
+                                                    }} type="button"><img src={`./images/common/skill/${arr}.jpg`}
                                                                           alt={`${arr}`}/>
                                                     </button>
                                                 </li>
@@ -437,8 +445,9 @@ function Custom(props) {
                             </li>
                             <li className={descriptionIndex === 1 ? "active" : null}>
                                 <p>
-                                    본인이 사용할 콤보 칸만큼 앞에서부터 순서대로 추가 버튼을 눌러 사용합니다.<br/>
-                                    * 중간에 있는 콤보 칸을 먼저 늘릴 수 없습니다.
+                                    1. 스킬과 퍼센트를 변경할 칸을 클릭하고, 오른쪽에서 변경할 스킬을 클릭합니다.(동일한 스킬로 변경 가능) (GIF로)<br/>
+                                    2. 변경한 칸의 동그라미 안의 솟자와 아래 표 속 최고치가 최대한 근접할 때까지 변경합니다.<br/>
+                                    * 콤보 카드가 완성되면 현재 콤보 카드를 만들기 위해서 승단 뱃지 재화가 어느정도 필요한지 알 수 있습니다.
                                 </p>
                             </li>
                         </ul>

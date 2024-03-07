@@ -81,11 +81,32 @@ function Footer() {
                     <thead>
                     <tr>
                         <th></th>
-                        <th>값(한계 돌파)</th>
+                        <th>값</th>
+                        {/*<th>값(한계 돌파)</th>*/}
                     </tr>
                     </thead>
                     <tbody>
                     <tr>
+                        <th>1->2</th>
+                        <td>0~10%</td>
+                    </tr>
+                    <tr>
+                        <th>2->3</th>
+                        <td>0~12%</td>
+                    </tr>
+                    <tr>
+                        <th>3->4</th>
+                        <td>0~15%</td>
+                    </tr>
+                    <tr>
+                        <th>4->5</th>
+                        <td>0~20%</td>
+                    </tr>
+                    <tr>
+                        <th>5->6</th>
+                        <td>0~30%</td>
+                    </tr>
+                    {/*<tr>
                         <th>1->2</th>
                         <td>0~10%</td>
                     </tr>
@@ -104,7 +125,7 @@ function Footer() {
                     <tr>
                         <th>5->6</th>
                         <td>0~20(~30)%</td>
-                    </tr>
+                    </tr>*/}
                     </tbody>
                 </table>
                 <div>

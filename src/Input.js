@@ -8,10 +8,10 @@ import { useNavigate } from "react-router-dom";
  *
  */
 /** TODO :
- * 1. ok --- map 의 arr 값 element or item 으로 변경
- * 2. ok --- 도움말 화면 작업
- * 3. ok --- next_step 은 로직 실행 후 이동이기떄문에 a 태그보다는 button 이 더 적합할 듯 -> button 사용 시 네비게이터로 이동
+ * 1. 스킬 선택 범위 확장(파밍 시 3단 스킬 아닌 것도 출현)
+ * 2. 다음 버튼 클릭 시 3칸 되어있을 때 빈칸을 모두 입력해주세요, 뜨고 이동되는 이슈
  * 4. localstorge로 변경(이건 모두 완성된 뒤에 다른 버전으로 할 것)
+ * 5. 모바일 css 최적화(다른 버전)
  */
 
 function Input(props) {
@@ -150,6 +150,7 @@ function Input(props) {
         });*/
     });
 
+    console.log(props.list);
   return (
     <div className="Input">
         <div className="wrap">
@@ -188,7 +189,7 @@ function Input(props) {
                                                                         }
                                                                     }}>
                                                                 <img
-                                                                    src={`/images/common/skill/${props.list[listId.id].selectSkill}.jpg`}
+                                                                    src={`./images/common/skill/${props.list[listId.id].selectSkill}.jpg`}
                                                                     alt={`${props.list[listId.id].selectSkill}`}/>
                                                             </button>
                                                         </div>
@@ -225,7 +226,7 @@ function Input(props) {
                                                                                 }
                                                                             }}>
                                                                         <img
-                                                                            src={`/images/common/skill/${props.list[listId.id].selectSkill}.jpg`}
+                                                                            src={`./images/common/skill/${props.list[listId.id].selectSkill}.jpg`}
                                                                             alt={`${props.list[listId.id].selectSkill}`}/>
                                                                     </button>
                                                                     <div className="combo_input">
@@ -277,7 +278,7 @@ function Input(props) {
                                                                             }
                                                                         }}>
                                                                     <img
-                                                                        src={`/images/common/skill/${props.list[listId.id].selectSkill}.jpg`}
+                                                                        src={`./images/common/skill/${props.list[listId.id].selectSkill}.jpg`}
                                                                         alt={`${props.list[listId.id].selectSkill}`}/>
                                                                 </button>
                                                             </div> : null
@@ -321,7 +322,7 @@ function Input(props) {
                                                         }
                                                         props.setList(copy);
 
-                                                    }}><img src={`/images/common/skill/${element}.jpg`} alt={`${element}`}/>
+                                                    }}><img src={`./images/common/skill/${element}.jpg`} alt={`${element}`}/>
                                                     </button>
                                                 </li>
                                             )
@@ -331,7 +332,6 @@ function Input(props) {
                             </div>
                             <div className="btn_wrap">
                                 <button className="next_step" onClick={(e) => {
-                                    navigate(`/custom`);
                                     let alertTrigger = false;
                                     let copy = [...props.list];
 
@@ -362,11 +362,14 @@ function Input(props) {
                                                 }
                                                 //값이 양수거나 undefined 일 시 무시
                                             } else {
+                                                navigate(`/custom`);
+                                            }
+                                            /*else {
                                                 let newPercentAll = [props.list[0].inputPercent, props.list[1].inputPercent, props.list[2].inputPercent, props.list[3].inputPercent, props.list[4].inputPercent, props.list[5].inputPercent]
                                                 props.setPercentAll([...newPercentAll]);
 
                                                 props.percentAll.map(Number);
-                                            }
+                                            }*/
                                         }
                                         return element
                                     });
@@ -406,96 +409,100 @@ function Input(props) {
                         </div>
                     </div>
                     <div className="description">
-                    <h5>? 콤보카드 시뮬레이터 도움말</h5>
-                    <ul className="tab_wrap">
-                        <li className={descriptionIndex === 0 ? "active" : null} onClick={() => {
-                            setDescriptionIndex(0);
-                        }}>정보
-                        </li>
-                        <li className={descriptionIndex === 1 ? "active" : null} onClick={() => {
-                            setDescriptionIndex(1);
-                        }}>추가하는 법
-                        </li>
-                        <li className={descriptionIndex === 2 ? "active" : null} onClick={() => {
-                            setDescriptionIndex(2);
-                        }}>스킬 입력
-                        </li>
-                        <li className={descriptionIndex === 3 ? "active" : null} onClick={() => {
-                            setDescriptionIndex(3);
-                        }}>퍼센트 입력
-                        </li>
-                        <li className={descriptionIndex === 4 ? "active" : null} onClick={() => {
-                            setDescriptionIndex(4);
-                        }}>제거하는 법
-                        </li>
-                    </ul>
-                    <ul className="tab_cont">
-                        <li className={descriptionIndex === 0 ? "active" : null}>
-                            <div>
-                                <strong>1</strong>
-                                <p>활성화된 콤보 칸(3번)에서 스킬 선택 시 해당 스킬로 교체되는 콤보 칸 (총 6칸)</p>
-                            </div>
-                            <div>
-                                <strong>2</strong>
-                                <p>해당 콤보 칸의 스킬 퍼센트</p>
-                            </div>
-                            <div>
-                                <strong>3</strong>
-                                <p>해당 콤보 칸의 스킬 선택 활성화</p>
-                            </div>
-                            <div>
-                                <strong>4</strong>
-                                <p>콤보 칸 추가 버튼(관련 내용은 "추가하는 법" 탭 내용 확인)</p>
-                            </div>
-                            <div>
-                                <strong>5</strong>
-                                <p>콤보 칸 제거 버튼(관련 내용은 "제거하는 법" 탭 내용 확인)</p>
-                            </div>
-                            <div>
-                                <strong>6</strong>
-                                <p>콤보 칸에 선택할 수 있는 스킬의 종류(인 게임과 종류 동일)</p>
-                            </div>
-                            <img src="./images/step1/info_img.jpg" alt=""/>
-                        </li>
-                        <li className={descriptionIndex === 1 ? "active" : null}>
-                            <p>
-                                본인이 사용할 콤보 칸만큼 앞에서부터 순서대로 추가 버튼을 눌러 사용합니다.<br/>
-                                * 중간에 있는 콤보 칸을 먼저 늘릴 수 없습니다.
-                            </p>
-                        </li>
-                        <li className={descriptionIndex === 2 ? "active" : null}>
-                            <div>
-                                <strong>1</strong>
-                                <strong>2</strong>
-                                <strong>3</strong>
-                                <strong>4</strong>
-                                <p>본인이 추가한 콤보 칸</p>
-                            </div>
-                            <div>
-                                <strong>3</strong>
-                                <p>스킬 선택 가능한 콤보 칸 (5번에서 스킬 선택 시 3번 콤보 칸에 입력됩니다.)</p>
-                            </div>
-                            <div>
-                                <strong>5</strong>
-                                <p>콤보 칸이 활성화되어 있는 상태에서 스킬 선택 시 해당 콤보 칸에 스킬이 입력됩니다.</p>
-                            </div>
-                            <img src="./images/step1/skill_img.jpg" alt=""/>
-                        </li>
-                        <li className={descriptionIndex === 3 ? "active" : null}>
-                            <p>
-                                가지고 있는 콤보 카드의 퍼센트를 입력할 수 있습니다.<br/>
-                                정보 탭에 있는 3번(콤보 칸 활성화)와 무관합니다.<br/>
-                                퍼센트 값을 채우지 않은 채로 "다음"버튼을 눌러 커스텀을 진행할 수 있습니다.
-                            </p>
-                        </li>
-                        <li className={descriptionIndex === 4 ? "active" : null}>
-                            <p>
-                                제거하고 싶은 부분의 콤보 칸을 클릭하여 활성화한 뒤 제거 버튼을 클릭합니다.<br/>
-                                이 때, 3번에서 클릭시 3~6번째의 칸이 비활성화되며 선택, 입력했던 스킬과 퍼센트가 초기화됩니다.
-                            </p>
-                        </li>
-                    </ul>
-                </div>
+                        <h5>? 콤보카드 시뮬레이터 도움말</h5>
+                        <ul className="tab_wrap">
+                            <li className={descriptionIndex === 0 ? "active" : null} onClick={() => {
+                                setDescriptionIndex(0);
+                            }}>정보
+                            </li>
+                            <li className={descriptionIndex === 1 ? "active" : null} onClick={() => {
+                                setDescriptionIndex(1);
+                            }}>추가하는 법
+                            </li>
+                            <li className={descriptionIndex === 2 ? "active" : null} onClick={() => {
+                                setDescriptionIndex(2);
+                            }}>스킬 입력
+                            </li>
+                            <li className={descriptionIndex === 3 ? "active" : null} onClick={() => {
+                                setDescriptionIndex(3);
+                            }}>퍼센트 입력
+                            </li>
+                            <li className={descriptionIndex === 4 ? "active" : null} onClick={() => {
+                                setDescriptionIndex(4);
+                            }}>제거하는 법
+                            </li>
+                        </ul>
+                        <ul className="tab_cont">
+                            <li className={descriptionIndex === 0 ? "active" : null}>
+                                <p>
+                                    콤보 카드란,<br /> 활성화되어 있는 콤보 카드의 순서대로 스킬 사용 시 해당 구간에 적혀 있는 퍼센트대로 보너스 대미지를 주는 카드입니다. 카드의 마지막까지 갔을 경우 다시 처음으로 돌아와 반복합니다.<br />
+                                    본인이 수급하여 소지하고 있는 콤보 카드, 혹은 가상의 콤보 카드를 입력하고 <span>(퍼센트는 필수 입력 사항이 아닙니다.)</span> 다음 버튼을 눌러 퍼센트 및 스킬을 커스텀하여 본인이 원하는 퍼센트를 가진 콤보 카드를 완성합니다.<br />
+                                </p>
+                                <div>
+                                    <strong>1</strong>
+                                    <p>활성화된 콤보 칸(3번)에서 스킬 선택 시 해당 스킬로 교체되는 콤보 칸 (총 6칸)</p>
+                                </div>
+                                <div>
+                                    <strong>2</strong>
+                                    <p>해당 콤보 칸의 스킬 퍼센트</p>
+                                </div>
+                                <div>
+                                    <strong>3</strong>
+                                    <p>해당 콤보 칸의 스킬 선택 활성화</p>
+                                </div>
+                                <div>
+                                    <strong>4</strong>
+                                    <p>콤보 칸 추가 버튼(관련 내용은 "추가하는 법" 탭 내용 확인)</p>
+                                </div>
+                                <div>
+                                    <strong>5</strong>
+                                    <p>콤보 칸 제거 버튼(관련 내용은 "제거하는 법" 탭 내용 확인)</p>
+                                </div>
+                                <div>
+                                    <strong>6</strong>
+                                    <p>콤보 칸에 선택할 수 있는 스킬의 종류(인 게임과 종류 동일)</p>
+                                </div>
+                                <img src="./images/step1/info_img.jpg" alt=""/>
+                            </li>
+                            <li className={descriptionIndex === 1 ? "active" : null}>
+                                <p>
+                                    본인이 사용할 콤보 칸만큼 앞에서부터 순서대로 추가 버튼을 눌러 사용합니다.<br/>
+                                    * 중간에 있는 콤보 칸을 먼저 늘릴 수 없습니다.
+                                </p>
+                            </li>
+                            <li className={descriptionIndex === 2 ? "active" : null}>
+                                <div>
+                                    <strong>1</strong>
+                                    <strong>2</strong>
+                                    <strong>3</strong>
+                                    <strong>4</strong>
+                                    <p>본인이 추가한 콤보 칸</p>
+                                </div>
+                                <div>
+                                    <strong>3</strong>
+                                    <p>스킬 선택 가능한 콤보 칸 (5번에서 스킬 선택 시 3번 콤보 칸에 입력됩니다.)</p>
+                                </div>
+                                <div>
+                                    <strong>5</strong>
+                                    <p>콤보 칸이 활성화되어 있는 상태에서 스킬 선택 시 해당 콤보 칸에 스킬이 입력됩니다.</p>
+                                </div>
+                                <img src="./images/step1/skill_img.jpg" alt=""/>
+                            </li>
+                            <li className={descriptionIndex === 3 ? "active" : null}>
+                                <p>
+                                    가지고 있는 콤보 카드의 퍼센트를 입력할 수 있습니다.<br/>
+                                    정보 탭에 있는 3번(콤보 칸 활성화)와 무관합니다.<br/>
+                                    퍼센트 값을 채우지 않은 채로 "다음"버튼을 눌러 커스텀을 진행할 수 있습니다.
+                                </p>
+                            </li>
+                            <li className={descriptionIndex === 4 ? "active" : null}>
+                                <p>
+                                    제거하고 싶은 부분의 콤보 칸을 클릭하여 활성화한 뒤 제거 버튼을 클릭합니다.<br/>
+                                    이 때, 3번에서 클릭시 3~6번째의 칸이 비활성화되며 선택, 입력했던 스킬과 퍼센트가 초기화됩니다.
+                                </p>
+                            </li>
+                        </ul>
+                    </div>
                 </div>
                 <button type="button" className="description_btn" onClick={()=>{setIsDescriptionBoolean(!isDescriptionBoolean)}}>?</button>
             </section>

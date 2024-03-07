@@ -8,12 +8,12 @@
       "type": "image/x-icon"
     },
     {
-      "src": "logo192.png",
+      "src": "https://ssl.nexon.com/s2/game/mabinogi/mabiweb/homepage/images/main/favicon.ico",
       "type": "image/png",
       "sizes": "192x192"
     },
     {
-      "src": "logo512.png",
+      "src": "https://ssl.nexon.com/s2/game/mabinogi/mabiweb/homepage/images/main/favicon.ico",
       "type": "image/png",
       "sizes": "512x512"
     }
