@@ -1,5 +1,5 @@
 import './stylesheet/Custom.scss';
-import React, {useEffect, useState} from "react";
+import React, {useEffect, useRef, useState} from "react";
 import { useNavigate } from "react-router-dom";
 
 /** TODO :
@@ -45,7 +45,11 @@ function Custom(props) {
     const [allUsedCoin, setAllUsedCoin ] = useState(0);
     const [coinValue, setCoinValue] = useState(0);
 
-    const [descriptionIndex, setDescriptionIndex] = useState(0);
+    const [descriptionIndex, setDescriptionIndex] = useState(1);
+    const tabCont = useRef();
+    const usageBtn = useRef();
+
+
 
 
     /*useEffect(()=>{
@@ -415,20 +419,27 @@ function Custom(props) {
                         </div>
                     </div>
                     <div className="description">
-                        <h5>? 콤보카드 시뮬레이터 도움말</h5>
-                        <ul className="tab_wrap">
-                            <li className={descriptionIndex === 0 ? "active" : null} onClick={() => {
+                        <div className="description_tit">
+                            <h5>도움말</h5>
+                            <button type="button" className={descriptionIndex === 0 ? "active" : null} onClick={() => {
                                 setDescriptionIndex(0);
-                            }}>승단 뱃지 사용량
-                            </li>
-                            <li className={descriptionIndex === 1 ? "active" : null} onClick={() => {
-                                setDescriptionIndex(1);
-                            }}>사용법
-                            </li>
-                        </ul>
-                        <ul className="tab_cont">
-                            <li className={descriptionIndex === 0 ? "active" : null}>
-                                <strong>사용된 승단 뱃지</strong>
+                            }}>승단 뱃지 사용량</button>
+                        </div>
+                        <ul className="tab_cont" ref={tabCont}>
+                            <li>
+                                <p>
+                                    1. 스킬과 퍼센트를 변경할 칸을 클릭하고, 오른쪽에서 변경할 스킬을 클릭(동일한 스킬로 변경 가능) (GIF로)<br/>
+                                    2. 변경한 칸의 동그라미 안의 솟자와 아래 표 속 최고치가 최대한 근접할 때까지 변경<br/>
+                                    <br/>
+                                    * 콤보 카드가 완성되면 현재 콤보 카드를 만들기 위해서 승단 뱃지 재화가 어느정도 필요한지 알 수 있습니다.
+                                </p>
+                                <button type="button" className="strong_btn" ref={usageBtn} onClick={() => {
+                                    tabCont.current.scroll({
+                                        top: usageBtn.current.offsetTop - 100,
+                                        behavior: 'smooth'
+                                    })
+                                }}>[ 사용된 승단 뱃지 ]
+                                </button>
                                 <div className="coin_box">
                                     <p>
                                         <span>1</span> {customList[0].usedCoin}개<br/>
@@ -442,13 +453,6 @@ function Custom(props) {
                                     </p>
                                 </div>
                                 <p>현재 뱃지 사용량: {coinValue}개 / 사용한 뱃지 총 개수: {allUsedCoin}개</p>
-                            </li>
-                            <li className={descriptionIndex === 1 ? "active" : null}>
-                                <p>
-                                    1. 스킬과 퍼센트를 변경할 칸을 클릭하고, 오른쪽에서 변경할 스킬을 클릭합니다.(동일한 스킬로 변경 가능) (GIF로)<br/>
-                                    2. 변경한 칸의 동그라미 안의 솟자와 아래 표 속 최고치가 최대한 근접할 때까지 변경합니다.<br/>
-                                    * 콤보 카드가 완성되면 현재 콤보 카드를 만들기 위해서 승단 뱃지 재화가 어느정도 필요한지 알 수 있습니다.
-                                </p>
                             </li>
                         </ul>
                     </div>

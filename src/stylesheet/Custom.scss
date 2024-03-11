@@ -97,28 +97,26 @@ section.random_step {
         }
     }
     .description {
-        width:488px; height:633px; display:inline-block; margin:30px 0 0 10px; border:1px solid #303030; border-radius:3px; text-align:left; vertical-align:top; font-family:$Mabinogi; background-color:#7f7f7f;
-        h5 { padding:18px 15px; color:white; @include textShadow(#838383); }
-        > .tab_wrap {
-            margin:0 8px; padding-top:6px; font-size:0; border-bottom:2px solid black; text-align:left;
-            li {
-                display:inline-block; position:relative; top:2px; padding:0 9px; margin-left:4px; color:white; cursor:pointer; border-width:2px 2px 0 2px; border-style:solid; border-color:black; border-radius:3px 3px 0 3px; font-size:16px; font-weight:$regular; line-height:38px; background-color:#2c2c2c; @include textShadow(#838383);
-                &.active { border-color:#303030; background-color:#7f7f7f; }
+        width:488px; height:633px; display:inline-block; margin:30px 0 0 10px; border-radius:3px; text-align:left; vertical-align:top; background-color:#eee;
+        .description_tit {
+            margin:0 15px; padding:15px 0; font-size:0; border-bottom:1px solid #d5d5d5;
+            h5 {
+                width:calc(100% - 141px); display:inline-block; color:black; font-size:16px; font-weight:$bold;
+                > span { padding:0 8px 1px; border-radius:100%; color:#eee; font-weight:$regular; background-color:#adadad; }
+            }
+            button {
+                display:inline-block; padding:8px 15px; color:white; cursor:pointer; border-radius:5px; font-size:14px; background-color:#8d8d8d; transition:all .3s;
+                &:hover { background-color:#2c2c2c; }
             }
         }
         > .tab_cont {
-            position:relative;
+            height:86%; margin:15px 15px 0; color:black; overflow-y:auto;
+            &::-webkit-scrollbar { background-color:#d9d9d9; }
+            &::-webkit-scrollbar-track { background-color:#d9d9d9; }
+            &::-webkit-scrollbar-thumb { background-color:#939393; border:2px solid #ababab; border-radius:2px; }
+            &::-webkit-scrollbar-button { background-color:#939393; border:2px solid #ababab; border-radius:2px; }
             li {
-                height:500px; position:absolute; top:0; left:0; margin-top:15px; color:white; opacity:0; visibility:hidden; text-align:center; overflow-y:auto;
-                &::-webkit-scrollbar { background-color:#2c2c2c; }
-                &::-webkit-scrollbar-track { background-color:#2c2c2c; }
-                &::-webkit-scrollbar-thumb { background-color:#7f7f7f; border:2px solid #303030; border-radius:2px; }
-                &::-webkit-scrollbar-button { background-color:#7f7f7f; border:2px solid #303030; border-radius:2px; }
-                &.active { opacity:1; visibility:inherit; }
-            }
-            li:nth-of-type(1) {
-                width:100%; font-size:0;
-                strong { display:block; padding-left:10px; font-size:14px; line-height:22px; text-align:left; }
+                margin-right:10px; font-size:14px; line-height:22px;
                 > .coin_box {
                     margin:5px 10px 0; padding:15px 0; box-sizing:border-box; border-radius:3px; font-size:14px; line-height:22px; background-color:rgba(19,19,19,.5);
                     > p {
@@ -126,7 +124,14 @@ section.random_step {
                         span { display:inline-block; padding:5px 5px 0 5px; border-radius:100%; line-height:12px; background-color:black; }
                     }
                 }
-                > p { padding-top:10px; font-size:14px; line-height:22px; }
+                > button.strong_btn {
+                    position:relative; margin-top:30px; color:black; cursor:pointer; overflow:hidden; font-size:16px; font-weight:$bold; transition:all .3s;
+                    &::after { content:""; width:100%; height:1px; position:absolute; bottom:0; left:-100%; background-color:black; transition:all .3s; }
+                    &:hover {
+                        color:#0006ff;
+                        &::after { left:0; background-color:#0006ff; }
+                    }
+                }
             }
         }
     }
