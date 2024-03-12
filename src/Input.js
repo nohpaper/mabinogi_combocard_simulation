@@ -13,7 +13,7 @@ import { useNavigate } from "react-router-dom";
  * 3. 도움말 문구
  *      3-1. ok --- 새로고침 시 데이터 소실
  *      3-2. ok --- 추가 버튼 클릭 관련 : 순서대로 추가 버튼을 눌러주세요
- * 4. 첫번째 콤보 칸도 추가버튼있도록(다른 것은 추가 클릭 시 바로 활성화되어서 넣으면 되겠다라는 인식이 있는데 1번은 미흡)
+ * 4. ok --- 첫번째 콤보 칸도 추가버튼있도록(다른 것은 추가 클릭 시 바로 활성화되어서 넣으면 되겠다라는 인식이 있는데 1번은 미흡)
  * 5. localstorge로 변경(이건 모두 완성된 뒤에 다른 버전으로 할 것)
  * 6. 모바일 css 최적화(다른 버전)
  */
@@ -34,13 +34,16 @@ function Input(props) {
             copyList[index].isActive = false;
             props.setList(copyList);
 
+
+            comboBtnRemove.current.classList.add("active");
+
             switch(currentIdx){
                 case 0: {
                     copyList[0].isActive = true;
+                    copyList[0].isAddButton = true; //combo add boolean
                     props.setList(copyList);
 
                     setSelectCombo(0); //combo active idx
-                    comboBtnRemove.current.classList.remove("active");
                     return;
                 }
                 case 1: {
@@ -49,7 +52,6 @@ function Input(props) {
                     props.setList(copyList);
 
                     setSelectCombo(1); //combo active idx
-                    comboBtnRemove.current.classList.add("active");
                     return;
                 }
                 case 2: {
@@ -58,7 +60,6 @@ function Input(props) {
                     props.setList(copyList);
 
                     setSelectCombo(2); //combo active idx
-                    comboBtnRemove.current.classList.add("active");
                     return;
                 }
                 case 3: {
@@ -67,7 +68,6 @@ function Input(props) {
                     props.setList(copyList);
 
                     setSelectCombo(3); //combo active idx
-                    comboBtnRemove.current.classList.add("active");
                     return;
                 }
                 case 4: {
@@ -76,7 +76,6 @@ function Input(props) {
                     props.setList(copyList);
 
                     setSelectCombo(4); //combo active idx
-                    comboBtnRemove.current.classList.add("active");
                     return;
                 }
                 default :
@@ -86,7 +85,6 @@ function Input(props) {
                     props.setList(copyList);
 
                     setSelectCombo(5); //combo active idx
-                    comboBtnRemove.current.classList.add("active");
                     return;
                 }
             }
@@ -155,8 +153,6 @@ function Input(props) {
             }
         });*/
     });
-
-    console.log(props.list);
   return (
     <div className="Input">
         <div className="wrap">
@@ -187,23 +183,38 @@ function Input(props) {
                                             if (listId.id === 0) {
                                                 return (
                                                     <div className="combo_each" key={index}>
-                                                        <div className="active_wrap">
-                                                            <button type="button"
-                                                                    className={props.list[listId.id].isActive ? "active" : null}
-                                                                    onClick={() => { //click event
-                                                                        if (props.list[listId.id].isActive && selectCombo === listId.id) { // list[index].isActive === true
-                                                                            let copy = [...props.list];
-                                                                            copy[listId.id].isActive = false;
-                                                                            props.setList(copy);
-                                                                        } else {
-                                                                            currentActive(listId.id); //isActive = true / selectCombo === index
-                                                                        }
-                                                                    }}>
-                                                                <img
-                                                                    src={`./images/common/skill/${props.list[listId.id].selectSkill}.jpg`}
-                                                                    alt={`${props.list[listId.id].selectSkill}`}/>
-                                                            </button>
-                                                        </div>
+                                                        <button type="button" className={props.list[listId.id].isAddButton === true ? "hidden disabled_wrap" : "disabled_wrap" } onClick={() => {
+                                                            currentActive(listId.id);
+                                                            /*if (props.list[listId.id - 1].isAddButton) {
+                                                                // current index - 1, 앞으로 isAddButton 값이 true 일 때,
+
+                                                            } else {
+                                                                let copy = [...props.list];
+                                                                copy[listId.id].isAddButton = false;
+                                                                props.setList(copy);
+                                                            }*/
+                                                        }}>추가
+                                                        </button>
+                                                        {
+                                                            props.list[listId.id].isAddButton ?
+                                                            <div className="active_wrap">
+                                                                <button type="button"
+                                                                        className={props.list[listId.id].isActive ? "active" : null}
+                                                                        onClick={() => { //click event
+                                                                            if (props.list[listId.id].isActive && selectCombo === listId.id) { // list[index].isActive === true
+                                                                                let copy = [...props.list];
+                                                                                copy[listId.id].isActive = false;
+                                                                                props.setList(copy);
+                                                                            } else {
+                                                                                currentActive(listId.id); //isActive = true / selectCombo === index
+                                                                            }
+                                                                        }}>
+                                                                    <img
+                                                                        src={`./images/common/skill/${props.list[listId.id].selectSkill}.jpg`}
+                                                                        alt={`${props.list[listId.id].selectSkill}`}/>
+                                                                </button>
+                                                            </div> : null
+                                                        }
                                                     </div>
                                                 )
                                             } else if (listId.id === 1 || listId.id === 3 || listId.id === 5) { // 1 || 3 || 5 일때 노출
@@ -223,7 +234,7 @@ function Input(props) {
                                                         {
                                                             props.list[listId.id].isAddButton ?
                                                                 <div className="active_wrap">
-                                                                    <button type="button"
+                                                                <button type="button"
                                                                             className={props.list[listId.id].isActive ? "active" : null}
                                                                             onClick={() => {
                                                                                 if (props.list[listId.id].isActive && selectCombo === listId.id) { // list[index].isActive === true
@@ -300,22 +311,20 @@ function Input(props) {
                                     }
                                     <div className="combo_btn_wrap">
                                         <button type="button" ref={comboBtnRemove} className="combo_remove" onClick={() => {
-                                            if (selectCombo !== 0) {
-                                                let copy = props.list.slice(selectCombo);
+                                            let copy = props.list.slice(selectCombo);
 
-                                                let upDatedCopy = copy.map((element) => {
-                                                    return {
-                                                        ...element,
-                                                        isAddButton: false,
-                                                        isActive: false,
-                                                        selectSkill: props.blank,
-                                                        inputPercent: 0,
-                                                    }
-                                                });
+                                            let upDatedCopy = copy.map((element) => {
+                                                return {
+                                                    ...element,
+                                                    isAddButton: false,
+                                                    isActive: false,
+                                                    selectSkill: props.blank,
+                                                    inputPercent: 0,
+                                                }
+                                            });
 
-                                                let newList = [...props.list.slice(0, selectCombo), ...upDatedCopy];
-                                                props.setList(newList);
-                                            }
+                                            let newList = [...props.list.slice(0, selectCombo), ...upDatedCopy];
+                                            props.setList(newList);
                                         }}>제거
                                         </button>
                                     </div>
@@ -410,9 +419,6 @@ function Input(props) {
                                             inputPercent: 0,
                                         }
                                     })
-
-                                    copy[0].isAddButton = true; //초기값
-
                                     props.setList(copy);
                                 }}>초기화
                                 </button>
@@ -426,7 +432,7 @@ function Input(props) {
                                 {/*콤보 카드란,<br/>
                                     1. 활성화되어 있는 콤보 카드의 순서대로 스킬 사용 시 해당 구간에 적혀 있는 퍼센트대로 보너스 대미지를 주는 카드입니다. 카드의 마지막까지 갔을
                                     경우 다시 처음으로 돌아와 반복합니다.<br/>*/}
-                                <div className="info_txt">
+                                <div>
                                     마비노기 인 게임내에 있는 승단 시험장의 승단 안내인을 통해 진행 가능한 <b>콤보 카드 커스텀마이징 체험용 시뮬레이터</b>입니다.<br/>
                                     <br/>
 
@@ -448,7 +454,7 @@ function Input(props) {
                                     })
                                 }}>[ 진행 방법 ]
                                 </button>
-                                <div className="progress_txt">
+                                <div className="progress_box">
                                     1. 인 게임 내 콤보 카드 창에서 <b>소지하고 있는 콤보 카드</b>, 혹은 <b>만들어 보고 싶은 가상의 콤보 카드</b>를 입력
                                     (스킬은 필수 입력, 퍼센트는 선택)<br/>
                                     <div className="text_description">
@@ -461,8 +467,6 @@ function Input(props) {
                                     2. <span className="btn_txt">다음</span> 버튼을 눌러 퍼센트 및 스킬을 커스텀하여 본인이 원하는 퍼센트를 가진 콤보 카드를
                                     완성합니다.<br/>
                                 </div>
-
-
                                 <button type="button" className="strong_btn" ref={structureBtn} onClick={() => {
                                     tabCont.current.scroll({
                                         top: structureBtn.current.offsetTop - 100,
@@ -470,7 +474,7 @@ function Input(props) {
                                     })
                                 }}>[ 현재 화면 구조 설명 ]
                                 </button>
-                                <div className="structure_txt">
+                                <div>
                                     <div className="number_box">
                                         <strong>1</strong>
                                         <p>활성화된 콤보 칸(3번)에서 스킬 선택 시 해당 스킬로 교체되는 콤보 칸 (총 6칸)</p>
