@@ -10,10 +10,7 @@ import { useNavigate } from "react-router-dom";
 /** TODO :
  * 1. 스킬 선택 범위 확장(파밍 시 3단 스킬 아닌 것도 출현)
  * 2. 다음 버튼 클릭 시 3칸 되어있을 때 빈칸을 모두 입력해주세요, 뜨고 이동되는 이슈
- * 3. 도움말 문구
- *      3-1. ok --- 새로고침 시 데이터 소실
- *      3-2. ok --- 추가 버튼 클릭 관련 : 순서대로 추가 버튼을 눌러주세요
- * 4. ok --- 첫번째 콤보 칸도 추가버튼있도록(다른 것은 추가 클릭 시 바로 활성화되어서 넣으면 되겠다라는 인식이 있는데 1번은 미흡)
+ *      2-1. 퍼센트 음수일 때도 이동되는 이슈
  * 5. localstorge로 변경(이건 모두 완성된 뒤에 다른 버전으로 할 것)
  * 6. 모바일 css 최적화(다른 버전)
  */
@@ -153,7 +150,7 @@ function Input(props) {
             }
         });*/
     });
-  return (
+    return (
     <div className="Input">
         <div className="wrap">
             <section className="input_step">
@@ -252,10 +249,15 @@ function Input(props) {
                                                                             alt={`${props.list[listId.id].selectSkill}`}/>
                                                                     </button>
                                                                     <div className="combo_input">
-                                                                        <input type="text" maxLength="2" onChange={(e) => {
+                                                                        <input type="number" maxLength="2" min="0" max="100" onChange={(e) => {
                                                                             let copy = [...props.list];
                                                                             copy[listId.id].inputPercent = e.target.value;
                                                                             props.setList(copy);
+
+                                                                            if(e.target.value.length >= e.target.maxLength) {
+                                                                                //입력한 값이 maxLength보다 크거나 같을 경우 e.target.value값을 잘라줌
+                                                                                e.target.value = e.target.value.slice(0, e.target.maxLength);
+                                                                            }
                                                                         }}/>
                                                                     </div>
                                                                 </div> : null
@@ -280,10 +282,15 @@ function Input(props) {
                                                         props.list[listId.id].isAddButton ?
                                                             <div className="active_wrap">
                                                                 <div className="combo_input">
-                                                                    <input type="text" maxLength="2" onChange={(e) => {
-                                                                        let copy = [...props.list];
-                                                                        copy[listId.id].inputPercent = e.target.value;
-                                                                        props.setList(copy);
+                                                                    <input type="number" maxLength="2" min="0" max="100" onChange={(e) => {
+                                                                       let copy = [...props.list];
+                                                                       copy[listId.id].inputPercent = e.target.value;
+                                                                       props.setList(copy);
+
+                                                                       if (e.target.value.length >= e.target.maxLength) {
+                                                                           //입력한 값이 maxLength보다 크거나 같을 경우 e.target.value값을 잘라줌
+                                                                           e.target.value = e.target.value.slice(0, e.target.maxLength);
+                                                                       }
                                                                     }}/>
                                                                 </div>
                                                                 <button type="button"
@@ -359,15 +366,16 @@ function Input(props) {
                                         //확인
                                         copy[index].isActive = false;
 
-                                        if (element.isAddButton && element.selectSkill === "blank" && !alertTrigger) {
-                                            e.preventDefault();
-                                            alert("빈칸을 모두 입력해주세요");
+                                        const isComboActive = copy.filter(target => target.isAddButton).length;//활성화 개수
+                                        const isComboSkillNone = copy.filter(target => target.isAddButton && target.selectSkill === "blank").length;//활성화한 것 중 스킬 입력하지 않은 개수
+
+                                        if (isComboSkillNone > 0 && !alertTrigger) {
+                                            alert("스킬 빈 칸을 모두 입력해주세요");
                                             alertTrigger = true;
-                                        } else if (props.list[0].isAddButton && props.list[1].isAddButton === false && !alertTrigger) {
-                                            e.preventDefault();
+                                        } else if (isComboActive <= 1 && !alertTrigger) {
                                             alert("콤보 카드는 최소 2칸 이상이어야합니다.");
                                             alertTrigger = true;
-                                        } else {
+                                        } else if(isComboActive > 1 && isComboSkillNone === 0) {
                                             if (index !== 0) {
                                                 let resultValue;
                                                 if (element.isAddButton) {
@@ -376,21 +384,22 @@ function Input(props) {
                                                 }
 
                                                 if (Math.sign(resultValue) === -1 && !alertTrigger) {
-                                                    e.preventDefault();
                                                     alert("앞 칸의 퍼센트 숫자가 더 클 수 없습니다. 재입력해주세요.");
                                                     alertTrigger = true;
                                                 }
                                                 //값이 양수거나 undefined 일 시 무시
                                             } else {
                                                 navigate(`/custom`);
-                                            }
-                                            /*else {
-                                                let newPercentAll = [props.list[0].inputPercent, props.list[1].inputPercent, props.list[2].inputPercent, props.list[3].inputPercent, props.list[4].inputPercent, props.list[5].inputPercent]
+                                                let newSkillAll = [copy[0].selectSkill, copy[1].selectSkill, copy[2].selectSkill, copy[3].selectSkill, copy[4].selectSkill, copy[5].selectSkill]
+                                                let newPercentAll = [copy[0].inputPercent, copy[1].inputPercent, copy[2].inputPercent, copy[3].inputPercent, copy[4].inputPercent, copy[5].inputPercent]
+                                                props.setSkillAll([...newSkillAll]);
                                                 props.setPercentAll([...newPercentAll]);
-
                                                 props.percentAll.map(Number);
-                                            }*/
+                                            }
                                         }
+
+
+                                        console.log(element.selectSkill);
                                         return element
                                     });
                                     props.setList(copy);
@@ -503,43 +512,6 @@ function Input(props) {
                                 </div>
 
                             </li>
-                            {/*<li>
-                                <p>
-                                    본인이 사용할 콤보 칸만큼 앞에서부터 순서대로 추가 버튼을 눌러 사용합니다.<br/>
-                                    * 중간에 있는 콤보 칸을 먼저 늘릴 수 없습니다.
-                                </p>
-                            </li>
-                            <li>
-                                <div>
-                                    <strong>1</strong>
-                                    <strong>2</strong>
-                                    <strong>3</strong>
-                                    <strong>4</strong>
-                                    <p>본인이 추가한 콤보 칸</p>
-                                </div>
-                                <div>
-                                    <strong>3</strong>
-                                    <p>스킬 선택 가능한 콤보 칸 (5번에서 스킬 선택 시 3번 콤보 칸에 입력됩니다.)</p>
-                                </div>
-                                <div>
-                                    <strong>5</strong>
-                                    <p>콤보 칸이 활성화되어 있는 상태에서 스킬 선택 시 해당 콤보 칸에 스킬이 입력됩니다.</p>
-                                </div>
-                                <img src="./images/step1/skill_img.jpg" alt=""/>
-                            </li>
-                            <li>
-                                <p>
-                                    가지고 있는 콤보 카드의 퍼센트를 입력할 수 있습니다.<br/>
-                                    정보 탭에 있는 3번(콤보 칸 활성화)와 무관합니다.<br/>
-                                    퍼센트 값을 채우지 않은 채로 "다음"버튼을 눌러 커스텀을 진행할 수 있습니다.
-                                </p>
-                            </li>
-                            <li>
-                                <p>
-                                    제거하고 싶은 부분의 콤보 칸을 클릭하여 활성화한 뒤 제거 버튼을 클릭합니다.<br/>
-                                    이 때, 3번에서 클릭시 3~6번째의 칸이 비활성화되며 선택, 입력했던 스킬과 퍼센트가 초기화됩니다.
-                                </p>
-                            </li>*/}
                         </ul>
                     </div>
                 </div>

@@ -44,11 +44,11 @@ section.input_step {
                             .active_wrap {
                                 height:100%;
                                 .combo_input {
-                                    display:inline-block; vertical-align:top; position:relative; color:#ffff5c; font-size:em(16); font-family:$Mabinogi; @include textShadow(#cf290f);
-                                    &:before { content:"+"; position:absolute; top:50%; left:em(13);  transform:translate(0, -50%); }
-                                    &:after { content:"%"; position:absolute; top:50%; right:em(13);  transform:translate(0, -50%); }
+                                    display:inline-block; vertical-align:top; position:relative; padding:em(17) em(7) em(13) em(20); color:#ffff5c; font-size:em(16); font-family:$Mabinogi; background-color:black; @include textShadow(#cf290f);
+                                    &:before { content:"+"; position:absolute; top:53%; left:em(13);  transform:translate(0, -50%); }
+                                    &:after { content:"%"; position:absolute; top:53%; right:em(13);  transform:translate(0, -50%); }
                                     > input {
-                                        width:em(20); height:em(20); color:#ffff5c; padding:em(16) em(23); border:0; font-size:em(16); font-family:$Mabinogi; background-color:black; @include textShadow(#cf290f);
+                                        width:em(35); height:em(20); position:relative; z-index:2; color:#ffff5c; border:0; font-size:em(16); font-family:$Mabinogi; background-color:transparent; @include textShadow(#cf290f);
                                     }
                                 }
                                 > button {

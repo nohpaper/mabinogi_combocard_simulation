@@ -61,13 +61,14 @@ function App() {
             usingPercent:0,
         },
     ]);
-    const [percentAll, setPercentAll] = useState([]);
+    const [skillAll, setSkillAll] = useState([]); //list selectSkill 를 input.js 에서 담아 custom.js 에서 변경하며 사용
+    const [percentAll, setPercentAll] = useState([]); //list inputPercent 를 input.js 에서 담아 custom.js 에서 변경하며 사용
 
   return (
     <div className="App">
         <Routes>
-            <Route path="/" element={<Input blank={BLANK_VALUE} skill={comboSkill} list={list} setList={setList} percentAll={percentAll} setPercentAll={setPercentAll}/>}/>
-            <Route path="/custom" element={<Custom blank={BLANK_VALUE} skill={comboSkill} list={list} setList={setList} percentAll={percentAll}/>} />
+            <Route path="/" element={<Input blank={BLANK_VALUE} skill={comboSkill} list={list} setList={setList} percentAll={percentAll} setSkillAll={setSkillAll} setPercentAll={setPercentAll}/>}/>
+            <Route path="/custom" element={<Custom blank={BLANK_VALUE} skill={comboSkill} list={list} setList={setList} skillAll={skillAll} setSkillAll={setSkillAll} percentAll={percentAll} setPercentAll={setPercentAll}/>} />
         </Routes>
         <Footer/>
     </div>

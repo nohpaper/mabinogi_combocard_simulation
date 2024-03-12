@@ -4,9 +4,8 @@ import { useNavigate } from "react-router-dom";
 
 /** TODO :
  * 1. ok --- 사용법 자세히 작성
- * 2. 1번 콤보 칸 use coin 미적용중 .. 수정 필
- *      2-1. useEffect 에서 [] 값이 usingPercent로 되어있는데, 0번(1번칸)의 usingPercent는 영원히 변동되지 않으므로 useEffect가 작동되지 않는다
- * 5. custom.js에서 넘어온 값으로 초기화하기는 v2.0에서
+ *      1-1. 도움말 1번 작성 GIF 등...
+ * 2. navigate(-1) 정상작동 안됨
  */
 
 function Custom(props) {
@@ -44,54 +43,46 @@ function Custom(props) {
         },
     ]);
     const [selectCombo, setSelectCombo ] = useState(0);
-    const [allUsedCoin, setAllUsedCoin ] = useState(0);
-    const [coinValue, setCoinValue] = useState(0);
+    const [allUsedCoin, setAllUsedCoin ] = useState(0); //사용된 전체 코인 개수
+    const [coinValue, setCoinValue] = useState(0); //스킬 중복 개수에 따른 코인 추가 값
+    const [isResetBoolean, setIsResetBoolean] = useState(false);
 
-    const [descriptionIndex, setDescriptionIndex] = useState(1);
+    //도움말 변수
     const tabCont = useRef();
     const usageBtn = useRef();
 
 
 
 
-    /*useEffect(()=>{
-        //usingPercent 삽입
-        const copy = [...props.list];
-
-        props.percentAll.forEach(function(arr, idx){
-            if(idx > 0){
-                copy[idx].usingPercent = props.percentAll[idx] - props.percentAll[idx - 1];
-            }
-        });
-        props.setList(copy);
-
-    }, [props.percentAll]);*/
-
     useEffect(()=>{
-        //usingPercent 삽입
         const copy = [...props.list];
+        const copyCustom = [...customList];
 
-        copy.forEach(function(arr, idx){
-            if(idx > 0){
-                copy[idx].usingPercent = copy[idx].inputPercent - copy[idx - 1].inputPercent;
-            }
-        });
-        props.setList(copy);
+        if(!isResetBoolean){
+            //여기서 다시 하기 버튼 클릭하지 않았을 때
 
-    }, [props.list.inputPercent]);
+            //usingPercent 삽입
+            props.percentAll.forEach(function(arr, idx){
+                if(idx > 0){
+                    copy[idx].usingPercent = props.percentAll[idx] - props.percentAll[idx - 1];
+                }
+            });
+            props.setList(copy);
 
-    useEffect(() => {
-        //코인 사용량 삽입 관련 useEffect
-        let copyCustom = [...customList];
-        copyCustom[selectCombo].usedCoin += coinValue;
-        setAllUsedCoin(customList[0].usedCoin + customList[1].usedCoin + customList[2].usedCoin + customList[3].usedCoin + customList[4].usedCoin + customList[5].usedCoin);
+            //코인 사용량 삽입 관련 useEffect
+            copyCustom[selectCombo].usedCoin += coinValue;
+            setAllUsedCoin(customList[0].usedCoin + customList[1].usedCoin + customList[2].usedCoin + customList[3].usedCoin + customList[4].usedCoin + customList[5].usedCoin);
+        }else {
+            //여기서 다시 하기 버튼 클릭했을 시
+            setTimeout(function(){
+                setIsResetBoolean(false);
+            }, 500);
+        }
 
+    }, [props.percentAll]);
 
-        console.log("selectCombo: ", selectCombo);
-        console.log("usedCoin: ", copyCustom[selectCombo].usedCoin);
-    }, [props.list[0].usingPercent, props.list[1].usingPercent, props.list[2].usingPercent, props.list[3].usingPercent, props.list[4].usingPercent, props.list[5].usingPercent]);
-
-
+    console.log(props.skillAll);
+    console.log(customList[selectCombo].usedCoin);
     let currentActive = ((currentIdx)=>{
         props.list.forEach(function(arr, idx){
             let copyList = [...props.list];
@@ -232,11 +223,17 @@ function Custom(props) {
                                                                 <button type="button"
                                                                         className={props.list[listIdIdx].isActive ? "active" : null}
                                                                         onClick={() => { //click event
-                                                                            currentActive(listIdIdx); //isActive = true / selectCombo === idx
+                                                                            if (props.list[listIdIdx].isActive && selectCombo === listIdIdx) { // list[idx].isActive === true
+                                                                                let copy = [...props.list];
+                                                                                copy[listIdIdx].isActive = false;
+                                                                                props.setList(copy);
+                                                                            } else {
+                                                                                currentActive(listIdIdx); //isActive = true / selectCombo === idx
+                                                                            }
                                                                         }}>
                                                                     <img
-                                                                        src={`./images/common/skill/${props.list[listIdIdx].selectSkill}.jpg`}
-                                                                        alt={`${props.list[listIdIdx].selectSkill}`}/>
+                                                                        src={`./images/common/skill/${props.skillAll[listIdIdx]}.jpg`}
+                                                                        alt={`${props.skillAll[listIdIdx]}`}/>
                                                                 </button>
                                                             </div>
                                                         </div>
@@ -260,11 +257,11 @@ function Custom(props) {
                                                                                         }
                                                                                     }}>
                                                                                 <img
-                                                                                    src={`./images/common/skill/${props.list[listIdIdx].selectSkill}.jpg`}
-                                                                                    alt={`${props.list[listIdIdx].selectSkill}`}/>
+                                                                                    src={`./images/common/skill/${props.skillAll[listIdIdx]}.jpg`}
+                                                                                    alt={`${props.skillAll[listIdIdx]}`}/>
                                                                             </button>
                                                                             <div className="combo_value">
-                                                                                <span>{props.list[listIdIdx].inputPercent}</span>
+                                                                                <span>{props.percentAll[listIdIdx]}</span>
                                                                                 <p className="combo_count">{props.list[listIdIdx].usingPercent}</p>
                                                                             </div>
                                                                         </div>
@@ -281,7 +278,7 @@ function Custom(props) {
                                                                 <div className="combo_each" key={idx}>
                                                                     <div className="active_wrap">
                                                                         <div className="combo_value">
-                                                                            <span>{props.list[listIdIdx].inputPercent}</span>
+                                                                            <span>{props.percentAll[listIdIdx]}</span>
                                                                             <p className="combo_count">{props.list[listIdIdx].usingPercent}</p>
                                                                         </div>
                                                                         <button type="button"
@@ -296,8 +293,8 @@ function Custom(props) {
                                                                                     }
                                                                                 }}>
                                                                             <img
-                                                                                src={`./images/common/skill/${props.list[listIdIdx].selectSkill}.jpg`}
-                                                                                alt={`${props.list[listIdIdx].selectSkill}`}/>
+                                                                                src={`./images/common/skill/${props.skillAll[listIdIdx]}.jpg`}
+                                                                                alt={`${props.skillAll[listIdIdx]}`}/>
                                                                         </button>
                                                                     </div>
                                                                 </div> : null
@@ -317,6 +314,8 @@ function Custom(props) {
                                                     <li key={idx}>
                                                         <button onClick={() => {
                                                             let copy = [...props.list];
+                                                            let copySkill = [...props.skillAll];
+                                                            let copyPercent = [...props.percentAll];
                                                             let copyCustom = [...customList];
 
                                                             //usingPercent 관련 변수
@@ -328,15 +327,12 @@ function Custom(props) {
                                                             //use coin duplication 변수
                                                             const useCoinSkillDuplication = [0, 5, 10, 15, 20, 25];
 
+                                                            //공동 실행 선택 및 교체 스킬 클릭 시 콤보 카드에 담김
+                                                            copySkill[selectCombo] = arr;
+                                                            props.setSkillAll(copySkill);
 
-                                                            if (selectCombo === 0 && props.list[selectCombo].isActive) {
-                                                                //0일 때만
-                                                                copy[selectCombo].selectSkill = arr;
-
-                                                            } else if (selectCombo === 1 && props.list[selectCombo].isActive) {
+                                                            if (selectCombo === 1 && props.list[selectCombo].isActive) {
                                                                 //1일 때만(한계 돌파X)
-
-                                                                copy[selectCombo].selectSkill = arr;
 
                                                                 //using percent random value
                                                                 const percentRandom = Math.floor((Math.random() * percentValue[1]) + 1); //5구간 랜덤 수 1~10
@@ -344,11 +340,11 @@ function Custom(props) {
                                                                 //1구간 일반 랜덤 확률
                                                                 copy[1].usingPercent = percentRandom;
 
-                                                                copy[1].inputPercent = copy[0].usingPercent + copy[1].usingPercent;
-                                                                copy[2].inputPercent = copy[0].usingPercent + copy[1].usingPercent + copy[2].usingPercent;
-                                                                copy[3].inputPercent = copy[0].usingPercent + copy[1].usingPercent + copy[2].usingPercent + copy[3].usingPercent;
-                                                                copy[4].inputPercent = copy[0].usingPercent + copy[1].usingPercent + copy[2].usingPercent + copy[3].usingPercent + copy[4].usingPercent;
-                                                                copy[5].inputPercent = copy[0].usingPercent + copy[1].usingPercent + copy[2].usingPercent + copy[3].usingPercent + copy[4].usingPercent + copy[5].usingPercent;
+                                                                copyPercent[1] = copy[0].usingPercent + copy[1].usingPercent;
+                                                                copyPercent[2] = copy[0].usingPercent + copy[1].usingPercent + copy[2].usingPercent;
+                                                                copyPercent[3] = copy[0].usingPercent + copy[1].usingPercent + copy[2].usingPercent + copy[3].usingPercent;
+                                                                copyPercent[4] = copy[0].usingPercent + copy[1].usingPercent + copy[2].usingPercent + copy[3].usingPercent + copy[4].usingPercent;
+                                                                copyPercent[5] = copy[0].usingPercent + copy[1].usingPercent + copy[2].usingPercent + copy[3].usingPercent + copy[4].usingPercent + copy[5].usingPercent;
 
                                                                 //use coin
                                                                 //copyCustom[1].usedCoin += copyCustom[1].useCoin;
@@ -356,7 +352,6 @@ function Custom(props) {
 
                                                             } else if (selectCombo !== 0 && selectCombo !== 1 && props.list[selectCombo].isActive) {
                                                                 //0, 1이 아닐 때 전부 실행
-                                                                copy[selectCombo].selectSkill = arr;
 
                                                                 //using percent random value
                                                                 const percentRandom = Math.floor((Math.random() * percentValue[selectCombo]) + 1); //5구간 랜덤 수 1~10
@@ -371,17 +366,18 @@ function Custom(props) {
                                                                     copy[selectCombo].usingPercent = percentRandom;
                                                                 }
 
-                                                                copy[1].inputPercent = copy[0].usingPercent + copy[1].usingPercent;
-                                                                copy[2].inputPercent = copy[0].usingPercent + copy[1].usingPercent + copy[2].usingPercent;
-                                                                copy[3].inputPercent = copy[0].usingPercent + copy[1].usingPercent + copy[2].usingPercent + copy[3].usingPercent;
-                                                                copy[4].inputPercent = copy[0].usingPercent + copy[1].usingPercent + copy[2].usingPercent + copy[3].usingPercent + copy[4].usingPercent;
-                                                                copy[5].inputPercent = copy[0].usingPercent + copy[1].usingPercent + copy[2].usingPercent + copy[3].usingPercent + copy[4].usingPercent + copy[5].usingPercent;
+                                                                copyPercent[1] = copy[0].usingPercent + copy[1].usingPercent;
+                                                                copyPercent[2] = copy[0].usingPercent + copy[1].usingPercent + copy[2].usingPercent;
+                                                                copyPercent[3] = copy[0].usingPercent + copy[1].usingPercent + copy[2].usingPercent + copy[3].usingPercent;
+                                                                copyPercent[4] = copy[0].usingPercent + copy[1].usingPercent + copy[2].usingPercent + copy[3].usingPercent + copy[4].usingPercent;
+                                                                copyPercent[5] = copy[0].usingPercent + copy[1].usingPercent + copy[2].usingPercent + copy[3].usingPercent + copy[4].usingPercent + copy[5].usingPercent;
 
                                                             }
                                                             props.setList(copy);
+                                                            props.setPercentAll(copyPercent);
 
                                                             //use coin duplication(중복 집계)
-                                                            const count = copy.filter(element => copy[selectCombo].selectSkill === element.selectSkill).length;
+                                                            const count = copySkill.filter(element => copySkill[selectCombo] === element).length;
 
                                                             //
                                                             if (count === 1) {
@@ -407,8 +403,6 @@ function Custom(props) {
                                 </div>
                                 <div className="btn_wrap">
                                     <button type="button" onClick={() => {
-                                        navigate(-1);
-
                                         console.log(props.list);
 
                                         let copy = props.list.map(function (arr) {
@@ -422,15 +416,35 @@ function Custom(props) {
                                             }
                                         })
 
-                                        copy[0].isAddButton = true; //초기값
-
                                         props.setList(copy);
+                                        props.setSkillAll([]);
+                                        props.setPercentAll([]);
+                                        navigate(`/`);
                                     }}>처음부터
                                     </button>
-                                    {/*<button type="button" onClick={() => {
+                                    <button type="button" onClick={() => {
+                                        //해당 버튼 클릭 확인 여부
+                                        setIsResetBoolean(!isResetBoolean);
 
-                                }}>여기서 다시 하기
-                                </button>*/}
+                                        //custom.js 에서 변경했던 skill, percent 처음으로 변경
+                                        let copy = [...props.list];
+                                        let newSkillAll = [copy[0].selectSkill, copy[1].selectSkill, copy[2].selectSkill, copy[3].selectSkill, copy[4].selectSkill, copy[5].selectSkill];
+                                        let newPercentAll = [copy[0].inputPercent, copy[1].inputPercent, copy[2].inputPercent, copy[3].inputPercent, copy[4].inputPercent, copy[5].inputPercent];
+
+                                        props.setSkillAll([...newSkillAll]);
+                                        props.setPercentAll([...newPercentAll]);
+
+                                        let resetUsedCoin = customList.map(function(element){
+                                            return {
+                                                ...element,
+                                                usedCoin: 0,
+                                            }
+                                        });
+
+                                        setCustomList(resetUsedCoin);
+                                        setAllUsedCoin(0);
+                                    }}>여기서 다시 하기
+                                    </button>
                                 </div>
                             </div>
                         </div>
