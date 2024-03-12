@@ -14,7 +14,7 @@ function App() {
     const [list, setList] = useState([
         {
             id:0,
-            isAddButton:true, //add button true or false
+            isAddButton:false, //add button true or false
             isActive:false, //button active true or false
             selectSkill:BLANK_VALUE, //select skill input
             inputPercent:0, //select percent input
