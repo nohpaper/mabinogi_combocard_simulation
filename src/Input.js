@@ -11,6 +11,7 @@ import { useNavigate } from "react-router-dom";
  * 1. 스킬 선택 범위 확장(파밍 시 3단 스킬 아닌 것도 출현)
  * 2. 다음 버튼 클릭 시 3칸 되어있을 때 빈칸을 모두 입력해주세요, 뜨고 이동되는 이슈
  *      2-1. 퍼센트 음수일 때도 이동되는 이슈
+ * 3. 제거 버튼 클릭 시 active 없애고 제거 버튼도 사라지도록
  * 5. localstorge로 변경(이건 모두 완성된 뒤에 다른 버전으로 할 것)
  * 6. 모바일 css 최적화(다른 버전)
  */
@@ -318,6 +319,8 @@ function Input(props) {
                                     }
                                     <div className="combo_btn_wrap">
                                         <button type="button" ref={comboBtnRemove} className="combo_remove" onClick={() => {
+                                            comboBtnRemove.current.classList.remove("active");
+
                                             let copy = props.list.slice(selectCombo);
 
                                             let upDatedCopy = copy.map((element) => {
@@ -397,9 +400,6 @@ function Input(props) {
                                                 props.percentAll.map(Number);
                                             }
                                         }
-
-
-                                        console.log(element.selectSkill);
                                         return element
                                     });
                                     props.setList(copy);

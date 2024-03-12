@@ -81,8 +81,6 @@ function Custom(props) {
 
     }, [props.percentAll]);
 
-    console.log(props.skillAll);
-    console.log(customList[selectCombo].usedCoin);
     let currentActive = ((currentIdx)=>{
         props.list.forEach(function(arr, idx){
             let copyList = [...props.list];
@@ -383,11 +381,9 @@ function Custom(props) {
                                                             if (count === 1) {
                                                                 //중복 없음
                                                                 setCoinValue(copyCustom[selectCombo].useCoin);
-                                                                console.log("count: 1 ", count);
                                                             } else if (count !== 1) {
                                                                 //중복 1개 이상
                                                                 setCoinValue(copyCustom[selectCombo].useCoin + useCoinSkillDuplication[count - 1]);
-                                                                console.log("count: another ", count);
                                                             } else {
                                                                 console.log("집계 불가");
                                                             }
@@ -403,8 +399,6 @@ function Custom(props) {
                                 </div>
                                 <div className="btn_wrap">
                                     <button type="button" onClick={() => {
-                                        console.log(props.list);
-
                                         let copy = props.list.map(function (arr) {
                                             return {
                                                 ...arr,
@@ -455,9 +449,8 @@ function Custom(props) {
                                     tabCont.current.scroll({
                                         top: usageBtn.current.offsetTop - 100,
                                         behavior: 'smooth'
-                                    })
-                                }}>승단 뱃지 사용량
-                                </button>
+                                    });
+                                }}>승단 뱃지 사용량</button>
                             </div>
                             <ul className="tab_cont" ref={tabCont}>
                                 <li>
