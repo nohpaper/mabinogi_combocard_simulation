@@ -87,53 +87,47 @@ function Footer() {
                     </thead>
                     <tbody>
                     <tr>
-                        <th>1->2</th>
+                        <th>1→2</th>
                         <td>0~10%</td>
                     </tr>
                     <tr>
-                        <th>2->3</th>
+                        <th>2→3</th>
                         <td>0~12%</td>
                     </tr>
                     <tr>
-                        <th>3->4</th>
+                        <th>3→4</th>
                         <td>0~15%</td>
                     </tr>
                     <tr>
-                        <th>4->5</th>
+                        <th>4→5</th>
                         <td>0~20%</td>
                     </tr>
                     <tr>
-                        <th>5->6</th>
+                        <th>5→6</th>
                         <td>0~30%</td>
                     </tr>
                     {/*<tr>
-                        <th>1->2</th>
+                        <th>1→2</th>
                         <td>0~10%</td>
                     </tr>
                     <tr>
-                        <th>2->3</th>
+                        <th>2→3</th>
                         <td>0~10(~12)%</td>
                     </tr>
                     <tr>
-                        <th>3->4</th>
+                        <th>3→4</th>
                         <td>0~12(~15)%</td>
                     </tr>
                     <tr>
-                        <th>4->5</th>
+                        <th>4→5</th>
                         <td>0~15(~20)%</td>
                     </tr>
                     <tr>
-                        <th>5->6</th>
+                        <th>5→6</th>
                         <td>0~20(~30)%</td>
                     </tr>*/}
                     </tbody>
                 </table>
-                <div>
-
-                </div>
-                <div>
-
-                </div>
             </div>
         </footer>
     )
