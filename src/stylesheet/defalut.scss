@@ -38,6 +38,42 @@ $Mabinogi:"Mabinogi", Gulim, Malgun Gothic, Arial, Apple SD Gothic Neo, sans-ser
     text-shadow:0 0 4px $color, 0 0 4px $color, 0 0 4px $color, 0 0 4px $color;
 }
 
+@function em($size) {
+    $remSize: $size / 20;
+    @return #{$remSize}rem;
+}
+
+@media only screen and (max-width:768px) {
+    html {font-size:20px !important;}
+}
+@media only screen and (max-width:726px) {
+    html {font-size:18px !important;}
+}
+@media only screen and (max-width:683px) {
+    html {font-size:17px !important;}
+}
+@media only screen and (max-width:641px) {
+    html {font-size:16px !important;}
+}
+@media only screen and (max-width:598px) {
+    html {font-size:15px !important;}
+}
+@media only screen and (max-width:556px) {
+    html {font-size:14px !important;}
+}
+@media only screen and (max-width:513px) {
+    html {font-size:13px !important;}
+}
+@media only screen and (max-width:471px) {
+    html {font-size:12px !important;}
+}
+@media only screen and (max-width:428px) {
+    html {font-size:11px !important;}
+}
+@media only screen and (max-width:386px) {
+    html {font-size:10px !important;}
+}
+
 html, body, div, span, applet, object, iframe,
 h1, h2, h3, h4, h5, h6, p, blockquote, pre,
 a, abbr, acronym, address, big, cite, code,
@@ -83,4 +119,4 @@ table {
 }
 
 
-html, body { font-family:$NotosansKR; font-weight:$regular; }
+html, body { font-family:$NotosansKR; font-weight:$regular; font-size:20px; }
