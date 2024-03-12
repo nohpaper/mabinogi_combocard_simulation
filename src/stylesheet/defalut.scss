@@ -39,7 +39,7 @@ $Mabinogi:"Mabinogi", Gulim, Malgun Gothic, Arial, Apple SD Gothic Neo, sans-ser
 }
 
 @function em($size) {
-    $remSize: $size / 20;
+    $remSize: calc($size / 20);
     @return #{$remSize}rem;
 }
 

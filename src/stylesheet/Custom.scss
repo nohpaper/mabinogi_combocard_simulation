@@ -27,7 +27,7 @@ section.random_step {
                 .random_tit {
                     padding:em(8) em(34) 0 em(14); color:#e3e3e3; font-size:em(12); line-height:em(15); font-family:$Mabinogi;
                     .combo_txt { width:em(351); display:inline-block; vertical-align:middle; text-align:center; }
-                    .skill_txt { width:calc(100% - 17.55rem); display:inline-block; vertical-align:middle; text-align:center; }
+                    .skill_txt { width:em(85); display:inline-block; vertical-align:middle; text-align:center; }
                 }
                 .random_inner {
                     height:em(468); padding:em(4) 0 em(4) em(14); font-size:0;
@@ -109,7 +109,7 @@ section.random_step {
             .description_tit {
                 margin:0 em(15); padding:em(15) 0; font-size:0; border-bottom:em(1) solid #d5d5d5;
                 h5 {
-                    width:calc(100% - 7.05rem); display:inline-block; color:black; font-size:em(16); font-weight:$bold;
+                    width:em(317); display:inline-block; color:black; font-size:em(16); font-weight:$bold;
                     > span { padding:0 em(8) em(1); border-radius:100%; color:#eee; font-weight:$regular; background-color:#adadad; }
                 }
                 button {

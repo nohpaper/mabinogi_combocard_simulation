@@ -29,7 +29,7 @@ section.input_step {
                 .input_tit {
                     padding:em(8) em(34) 0 em(14); color:#e3e3e3; font-size:em(12); line-height:em(15); font-family:$Mabinogi;
                     .combo_txt { width:em(351); display:inline-block; vertical-align:middle; text-align:center; }
-                    .skill_txt { width:calc(100% - 17.55rem); display:inline-block; vertical-align:middle; text-align:center; }
+                    .skill_txt { width:em(85); display:inline-block; vertical-align:middle; text-align:center; }
                 }
                 .input_inner {
                     height:em(468); padding:em(4) 0 em(4) em(14); font-size:0;
