@@ -11,7 +11,8 @@ import { useNavigate } from "react-router-dom";
  * 1. 스킬 선택 범위 확장(파밍 시 3단 스킬 아닌 것도 출현)
  * 2. 다음 버튼 클릭 시 3칸 되어있을 때 빈칸을 모두 입력해주세요, 뜨고 이동되는 이슈
  *      2-1. 퍼센트 음수일 때도 이동되는 이슈
- * 3. 제거 버튼 클릭 시 active 없애고 제거 버튼도 사라지도록
+ * 3. ok --- 제거 버튼 클릭 시 active 없애고 제거 버튼도 사라지도록
+ * 4. custom.js 에서 처음부터 클릭하여 돌아왔을 경우 경로 불일치로 img 안뜨는 문제
  * 5. localstorge로 변경(이건 모두 완성된 뒤에 다른 버전으로 할 것)
  * 6. 모바일 css 최적화(다른 버전)
  */
@@ -373,12 +374,20 @@ function Input(props) {
                                         const isComboSkillNone = copy.filter(target => target.isAddButton && target.selectSkill === "blank").length;//활성화한 것 중 스킬 입력하지 않은 개수
 
                                         if (isComboSkillNone > 0 && !alertTrigger) {
-                                            alert("스킬 빈 칸을 모두 입력해주세요");
+                                            //스킬을 입력하지 않고 && false 일 때
+                                            //alert("스킬 빈 칸을 모두 입력해주세요");
+                                            console.log("스킬 빈 칸을 모두 입력해주세요", "isComboSkillNone: ", isComboSkillNone, "alertTrigger: ", alertTrigger);
                                             alertTrigger = true;
+                                            return null;
                                         } else if (isComboActive <= 1 && !alertTrigger) {
-                                            alert("콤보 카드는 최소 2칸 이상이어야합니다.");
-                                            alertTrigger = true;
-                                        } else if(isComboActive > 1 && isComboSkillNone === 0) {
+                                            //alert("콤보 카드는 최소 2칸 이상이어야합니다.");
+                                            console.log("콤보 카드는 최소 2칸 이상이어야합니다.")
+                                            return alert("콤보 카드는 최소 2칸 이상이어야합니다.");
+                                            //alertTrigger = true;
+                                        } //else if(isComboActive > 1 && isComboSkillNone === 0) {
+                                            else {
+                                            console.log("false");
+                                            //navigate(`/custom`);
                                             if (index !== 0) {
                                                 let resultValue;
                                                 if (element.isAddButton) {
@@ -392,7 +401,7 @@ function Input(props) {
                                                 }
                                                 //값이 양수거나 undefined 일 시 무시
                                             } else {
-                                                navigate(`/custom`);
+                                                //navigate(`/custom`);
                                                 let newSkillAll = [copy[0].selectSkill, copy[1].selectSkill, copy[2].selectSkill, copy[3].selectSkill, copy[4].selectSkill, copy[5].selectSkill]
                                                 let newPercentAll = [copy[0].inputPercent, copy[1].inputPercent, copy[2].inputPercent, copy[3].inputPercent, copy[4].inputPercent, copy[5].inputPercent]
                                                 props.setSkillAll([...newSkillAll]);
