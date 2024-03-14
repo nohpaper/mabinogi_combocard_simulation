@@ -42,9 +42,9 @@ section.input_step {
                                 &.hidden { opacity:0; visibility:hidden; }
                             }
                             .active_wrap {
-                                height:100%;
+                                height:100%; display:flex;
                                 .combo_input {
-                                    display:inline-block; vertical-align:top; position:relative; padding:em(17) em(7) em(13) em(20); color:#ffff5c; font-size:em(16); font-family:$Mabinogi; background-color:black; @include textShadow(#cf290f);
+                                    position:relative; padding:em(17) em(7) em(13) em(20); color:#ffff5c; font-size:em(16); font-family:$Mabinogi; background-color:black; @include textShadow(#cf290f);
                                     &:before { content:"+"; position:absolute; top:53%; left:em(13);  transform:translate(0, -50%); }
                                     &:after { content:"%"; position:absolute; top:53%; right:em(13);  transform:translate(0, -50%); }
                                     > input {
@@ -52,7 +52,7 @@ section.input_step {
                                     }
                                 }
                                 > button {
-                                    width:em(52); height:100%; display:inline-block; position:relative; background-color:#252525; border:em(1) solid black; z-index:2; cursor:pointer;
+                                    width:em(52); height:100%; position:relative; background-color:#252525; border:em(1) solid black; z-index:2; cursor:pointer;
                                     &.active::before {
                                         content:""; width:em(58); height:em(58); position:absolute; top:50%; left:50%; z-index:-1; border-radius:em(5); background-color:#e1e0e0; transform:translate(-50%, -50%);
                                     }

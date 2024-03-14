@@ -36,9 +36,9 @@ section.random_step {
                         .combo_each {
                             width:em(118); height:em(52); position:absolute; font-size:0;
                             .active_wrap {
-                                height:100%; position:relative;
+                                height:100%; display:flex; position:relative;
                                 .combo_value {
-                                    display:inline-block; vertical-align:top; position:relative; color:#ffff5c; font-size:em(16); font-family:$Mabinogi; @include textShadow(#cf290f);
+                                    position:relative; color:#ffff5c; font-size:em(16); font-family:$Mabinogi; @include textShadow(#cf290f);
                                     &:before { content:"+"; position:absolute; top:50%; left:em(13);  transform:translate(0, -50%); }
                                     &:after { content:"%"; position:absolute; top:50%; right:em(13);  transform:translate(0, -50%); }
                                     > span {
@@ -46,7 +46,7 @@ section.random_step {
                                     }
                                 }
                                 > button {
-                                    width:em(52); height:100%; display:inline-block; position:relative; background-color:#252525; border:em(1) solid black; z-index:2; cursor:pointer;
+                                    width:em(52); height:100%; position:relative; background-color:#252525; border:em(1) solid black; z-index:2; cursor:pointer;
                                     &.active::before {
                                         content:""; width:em(58); height:em(58); position:absolute; top:50%; left:50%; z-index:-1; border-radius:em(5); background-color:#e1e0e0; transform:translate(-50%, -50%);
                                     }
