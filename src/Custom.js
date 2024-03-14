@@ -413,7 +413,7 @@ function Custom(props) {
                                         props.setList(copy);
                                         props.setSkillAll([]);
                                         props.setPercentAll([]);
-                                        navigate(`/`);
+                                        navigate(-1);
                                     }}>처음부터
                                     </button>
                                     <button type="button" onClick={() => {
