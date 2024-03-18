@@ -2,12 +2,6 @@ import './stylesheet/Custom.scss';
 import React, {useEffect, useRef, useState} from "react";
 import { useNavigate } from "react-router-dom";
 
-/** TODO :
- * 1. ok --- 사용법 자세히 작성
- *      1-1. 도움말 1번 작성 GIF 등...
- * 2. navigate(-1) 정상작동 안됨
- */
-
 function Custom(props) {
     const navigate = useNavigate();
     const [customList, setCustomList] = useState([
@@ -133,59 +127,6 @@ function Custom(props) {
                 }
             }
         })
-        /*props.list.map(function(arr, idx){
-           let copyList = [...props.list];
-           copyList[idx].isActive = false;
-           props.setList(copyList);
-
-            switch (currentIdx){
-                case 0 : {
-                    copyList[0].isActive = true;
-                    props.setList(copyList);
-
-                    setSelectCombo(0);
-                    return;
-                }
-                case 1 : {
-                    copyList[1].isActive = true;
-                    props.setList(copyList);
-
-                    setSelectCombo(1);
-                    return;
-                }
-                case 2 : {
-                    copyList[2].isActive = true;
-                    props.setList(copyList);
-
-                    setSelectCombo(2);
-                    return;
-                }
-                case 3 : {
-                    copyList[3].isActive = true;
-                    props.setList(copyList);
-
-                    setSelectCombo(3);
-                    return;
-                }
-                case 4 : {
-                    copyList[4].isActive = true;
-                    props.setList(copyList);
-
-                    setSelectCombo(4);
-                    return;
-                }
-                default:
-                case 5 : {
-                    copyList[5].isActive = true;
-                    props.setList(copyList);
-
-                    setSelectCombo(5);
-                    return;
-                }
-            }
-
-            return{}
-        });*/
     });
     return(
         <div className="Custom">

@@ -1,26 +1,14 @@
 import './stylesheet/Input.scss';
 
-import React, {useRef, useState} from "react";
+import React, {useRef, useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
-/** HACK :
- *  //스프레드 연산자 확인
- *
- */
-/** TODO :
- * 1. 스킬 선택 범위 확장(파밍 시 3단 스킬 아닌 것도 출현)
- * 2. 다음 버튼 클릭 시 3칸 되어있을 때 빈칸을 모두 입력해주세요, 뜨고 이동되는 이슈
- *      2-1. 퍼센트 음수일 때도 이동되는 이슈
- * 3. ok --- 제거 버튼 클릭 시 active 없애고 제거 버튼도 사라지도록
- * 4. custom.js 에서 처음부터 클릭하여 돌아왔을 경우 경로 불일치로 img 안뜨는 문제
- * 5. localstorge로 변경(이건 모두 완성된 뒤에 다른 버전으로 할 것)
- * 6. 모바일 css 최적화(다른 버전)
- */
 
 function Input(props) {
     const navigate = useNavigate();
     const [selectCombo, setSelectCombo ] = useState(0);
     const comboBtnRemove = useRef();
+    const [resultValue, setResultValue] = useState([]);
 
     //도움말 변수
     const tabCont = useRef();
@@ -88,70 +76,8 @@ function Input(props) {
                 }
             }
         })
-        /*props.list.map(function(element, index, array){
-
-            let copyList = [...props.list];
-            copyList[index].isActive = false;
-            props.setList(copyList);
-
-            switch(currentIdx){
-                case 0: {
-                    copyList[0].isActive = true;
-                    props.setList(copyList);
-
-                    setSelectCombo(0); //combo active idx
-                    comboBtnRemove.current.classList.remove("active");
-                    return;
-                }
-                case 1: {
-                    copyList[1].isActive = true;
-                    copyList[1].isAddButton = true; //combo add boolean
-                    props.setList(copyList);
-
-                    setSelectCombo(1); //combo active idx
-                    comboBtnRemove.current.classList.add("active");
-                    return;
-                }
-                case 2: {
-                    copyList[2].isActive = true;
-                    copyList[2].isAddButton = true; //combo add boolean
-                    props.setList(copyList);
-
-                    setSelectCombo(2); //combo active idx
-                    comboBtnRemove.current.classList.add("active");
-                    return;
-                }
-                case 3: {
-                    copyList[3].isActive = true;
-                    copyList[3].isAddButton = true; //combo add boolean
-                    props.setList(copyList);
-
-                    setSelectCombo(3); //combo active idx
-                    comboBtnRemove.current.classList.add("active");
-                    return;
-                }
-                case 4: {
-                    copyList[4].isActive = true;
-                    copyList[4].isAddButton = true; //combo add boolean
-                    props.setList(copyList);
-
-                    setSelectCombo(4); //combo active idx
-                    comboBtnRemove.current.classList.add("active");
-                    return;
-                }
-                default :
-                case 5: {
-                    copyList[5].isActive = true;
-                    copyList[5].isAddButton = true; //combo add boolean
-                    props.setList(copyList);
-
-                    setSelectCombo(5); //combo active idx
-                    comboBtnRemove.current.classList.add("active");
-                    return;
-                }
-            }
-        });*/
     });
+
     return (
     <div className="Input">
         <div className="wrap">
@@ -184,14 +110,6 @@ function Input(props) {
                                                     <div className="combo_each" key={index}>
                                                         <button type="button" className={props.list[listId.id].isAddButton === true ? "hidden disabled_wrap" : "disabled_wrap" } onClick={() => {
                                                             currentActive(listId.id);
-                                                            /*if (props.list[listId.id - 1].isAddButton) {
-                                                                // current index - 1, 앞으로 isAddButton 값이 true 일 때,
-
-                                                            } else {
-                                                                let copy = [...props.list];
-                                                                copy[listId.id].isAddButton = false;
-                                                                props.setList(copy);
-                                                            }*/
                                                         }}>추가
                                                         </button>
                                                         {
@@ -362,7 +280,7 @@ function Input(props) {
                                 </ul>
                             </div>
                             <div className="btn_wrap">
-                                <button className="next_step" onClick={(e) => {
+                                <button className="next_step" onClick={() => {
                                     let alertTrigger = false;
                                     let copy = [...props.list];
 
@@ -373,41 +291,28 @@ function Input(props) {
                                         const isComboActive = copy.filter(target => target.isAddButton).length;//활성화 개수
                                         const isComboSkillNone = copy.filter(target => target.isAddButton && target.selectSkill === "blank").length;//활성화한 것 중 스킬 입력하지 않은 개수
 
-                                        if (isComboSkillNone > 0 && !alertTrigger) {
-                                            //스킬을 입력하지 않고 && false 일 때
-                                            //alert("스킬 빈 칸을 모두 입력해주세요");
-                                            console.log("스킬 빈 칸을 모두 입력해주세요", "isComboSkillNone: ", isComboSkillNone, "alertTrigger: ", alertTrigger);
-                                            alertTrigger = true;
-                                            return null;
-                                        } else if (isComboActive <= 1 && !alertTrigger) {
-                                            //alert("콤보 카드는 최소 2칸 이상이어야합니다.");
-                                            console.log("콤보 카드는 최소 2칸 이상이어야합니다.")
-                                            return alert("콤보 카드는 최소 2칸 이상이어야합니다.");
-                                            //alertTrigger = true;
-                                        } //else if(isComboActive > 1 && isComboSkillNone === 0) {
-                                            else {
-                                            console.log("false");
-                                            //navigate(`/custom`);
-                                            if (index !== 0) {
-                                                let resultValue;
-                                                if (element.isAddButton) {
-                                                    //isAddButton: true 인 것들만 실행
-                                                    resultValue = props.list[index].inputPercent - props.list[index - 1].inputPercent;
-                                                }
-
-                                                if (Math.sign(resultValue) === -1 && !alertTrigger) {
-                                                    alert("앞 칸의 퍼센트 숫자가 더 클 수 없습니다. 재입력해주세요.");
-                                                    alertTrigger = true;
-                                                }
-                                                //값이 양수거나 undefined 일 시 무시
-                                            } else {
-                                                //navigate(`/custom`);
-                                                let newSkillAll = [copy[0].selectSkill, copy[1].selectSkill, copy[2].selectSkill, copy[3].selectSkill, copy[4].selectSkill, copy[5].selectSkill]
-                                                let newPercentAll = [copy[0].inputPercent, copy[1].inputPercent, copy[2].inputPercent, copy[3].inputPercent, copy[4].inputPercent, copy[5].inputPercent]
-                                                props.setSkillAll([...newSkillAll]);
-                                                props.setPercentAll([...newPercentAll]);
-                                                props.percentAll.map(Number);
+                                        if (isComboSkillNone > 0) {
+                                            //스킬을 입력하지 않고
+                                            if(!alertTrigger){
+                                                alert("스킬 빈 칸을 모두 입력해주세요");
+                                                alertTrigger = true;
+                                            }else{
+                                                return null;
                                             }
+                                        } else if (isComboActive <= 1) {
+                                            if(!alertTrigger){
+                                                alert("콤보 카드는 최소 2칸 이상이어야 합니다.");
+                                                alertTrigger = true;
+                                            }else {
+                                                return null;
+                                            }
+                                        } else {
+                                            navigate(`/custom`);
+                                            let newSkillAll = [copy[0].selectSkill, copy[1].selectSkill, copy[2].selectSkill, copy[3].selectSkill, copy[4].selectSkill, copy[5].selectSkill]
+                                            let newPercentAll = [copy[0].inputPercent, copy[1].inputPercent, copy[2].inputPercent, copy[3].inputPercent, copy[4].inputPercent, copy[5].inputPercent]
+                                            props.setSkillAll([...newSkillAll]);
+                                            props.setPercentAll([...newPercentAll]);
+                                            props.percentAll.map(Number);
                                         }
                                         return element
                                     });
@@ -418,16 +323,6 @@ function Input(props) {
 
 
                                 <button type="button" className="reset_step" onClick={() => {
-                                    /*props.list.map(function(element, index){
-                                        let copy = [...props.list];
-                                        copy[index].isAddButton = false;
-                                        copy[index].isActive = false;
-                                        copy[index].selectSkill = props.blank;
-                                        copy[index].inputPercent = 0;
-
-                                        copy[0].isAddButton = true; //초기값
-                                        props.setList(copy);
-                                    })*/
                                     let copy = props.list.map(function (element) {
                                         return {
                                             ...element,
